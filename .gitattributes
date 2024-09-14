@@ -1,0 +1,5 @@
+# Set default behavior for all files to use LF line endings
+* text=auto eol=lf
+
+# Override settings for .cmd files to use CRLF line endings
+*.cmd text eol=crlf

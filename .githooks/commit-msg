@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+REPO=$(git rev-parse --show-toplevel)
+source "$REPO/.githooks/functions.sh"
+
+# Define the pattern for commit messages
+PATTERN='^(feat|fix|docs|style|refactor|test|chore)(\((backend|device|frontend)\))?: .{10,100}$'
+
+# Check if the first line of the commit message matches the pattern
+if ! head -n 1 "$1" | grep -E "$PATTERN" -q
+then
+    error 'Commit rejected due to invalid commit message format.'
+    error 'The first line of your commit message must follow this format:'
+    error '    type(scope?): description'
+    error
+    error 'Where:'
+    error '    - type: one of feat, fix, docs, style, refactor, test, chore'
+    error '    - scope: optional, can be backend, device, or frontend'
+    error '    - description: a brief summary of the change (10 to 50 characters)'
+    error
+    error 'Examples:'
+    error '    - chore: update .gitignore file'
+    error '    - feat(backend): add account management'
+    error
+    error 'Note:'
+    error '    The above rule only applies to the first line.'
+    error '    You can provide additional details in the lines that follow.'
+    exit 1
+fi

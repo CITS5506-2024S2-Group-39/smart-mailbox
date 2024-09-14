@@ -1,0 +1,16 @@
+# Common
+.*
+!.githooks
+!.gitattributes
+!.gitignore
+!.gitkeep
+
+# Node.js
+node_modules
+dist
+logs
+*.log
+
+# Python
+__pycache__
+*.pyc

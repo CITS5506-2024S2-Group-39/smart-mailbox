@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+REPO=$(git rev-parse --show-toplevel)
+source "$REPO/.githooks/functions.sh"
+
+# Check for unstaged changes
+files=$(git status -s | awk '/^.[^ ]/ { print substr($0, 4) }')
+if [[ -n "$files" ]]; then
+    error 'Unstaged changes detected in the following files:'
+    echo "$files" | while IFS= read -r file; do
+        error "    - $file"
+    done
+    error
+    error 'Please stage all changes to run the auto-formatting hook.'
+    error 'You can use `git commit -am` to commit tracked files in one step.'
+    exit 1
+fi
+
+# Notify that formatting is starting
+info 'Formatting code before commit...'
+
+# Format staged files
+files=$(git diff --cached --name-only --diff-filter=ACMR)
+echo "$files" | while IFS= read -r file; do
+    case "$file" in
+        *.py)
+            if ! py -m black "$file" >/dev/null 2>/dev/null; then
+                warning "Failed to format: $file"
+                git restore "$file"
+            else
+                success "Successfully formatted: $file"
+                git add "$file"
+            fi
+            ;;
+        *.json | *.js | *.ts | *.jsx | *.tsx | *.vue | *.html | *.css)
+            if ! npx prettier --write "$file" >/dev/null 2>/dev/null; then
+                warning "Failed to format: $file"
+                git restore "$file"
+            else
+                success "Successfully formatted: $file"
+                git add "$file"
+            fi
+            ;;
+    esac
+done
+
+# Notify that all changes are formatted
+success 'All changes have been formatted and are ready for commit.'
