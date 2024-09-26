@@ -23,21 +23,28 @@ files=$(git diff --cached --name-only --diff-filter=ACMR)
 echo "$files" | while IFS= read -r file; do
     case "$file" in
         *.py)
-            if ! py -m black "$file" >/dev/null 2>/dev/null; then
-                warning "Failed to format: $file"
-                git restore "$file"
-            else
+            (
+                py -m black "$REPO/$file" >/dev/null
+            )
+            if [[ $? -eq 0 ]]; then
                 success "Successfully formatted: $file"
                 git add "$file"
+            else
+                warning "Failed to format: $file"
+                git restore "$file"
             fi
             ;;
         *.json | *.js | *.ts | *.jsx | *.tsx | *.vue | *.html | *.css)
-            if ! npx prettier --write "$file" >/dev/null 2>/dev/null; then
-                warning "Failed to format: $file"
-                git restore "$file"
-            else
+            (
+                cd "$REPO/frontend"
+                npm run pretty "$REPO/$file" >/dev/null
+            )
+            if [[ $? -eq 0 ]]; then
                 success "Successfully formatted: $file"
                 git add "$file"
+            else
+                warning "Failed to format: $file"
+                git restore "$file"
             fi
             ;;
     esac
