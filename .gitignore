@@ -10,7 +10,12 @@ node_modules
 dist
 logs
 *.log
+!.prettierrc.json
+
+# I prefer not to keep this file, as the project isn't particularly sensitive to dependency versions
+package-lock.json
 
 # Python
 __pycache__
+venv
 *.pyc
