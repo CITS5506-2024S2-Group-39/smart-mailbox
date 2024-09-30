@@ -17,8 +17,8 @@ const date = computed(() => event.time as Date);
       <div v-text="date.toLocaleTimeString()"></div>
     </div>
     <div
-      class="relative flex-none after:absolute after:left-[50%] after:top-12 after:border-l-2 group-first-of-type:before:hidden
-        group-last-of-type:after:hidden desktop:after:-bottom-8 mobile:after:-bottom-4"
+      class="relative flex-none after:absolute after:left-[calc(50%-1px)] after:top-12 after:border-l-2
+        group-first-of-type:before:hidden group-last-of-type:after:hidden desktop:after:-bottom-8 mobile:after:-bottom-4"
     >
       <div class="grid size-12 place-items-center rounded-full border-2">
         <MailboxEventIcon class="text-8" :type="event.type" />
