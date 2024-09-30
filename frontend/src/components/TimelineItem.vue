@@ -1,25 +1,33 @@
 <script setup lang="ts">
 import MailboxEventIcon from "@/components/MailboxEventIcon.vue";
-
 import { type MailboxEvent } from "@/types/MailboxEvent";
+import { computed } from "vue";
+
 const { event } = defineProps<{ event: MailboxEvent }>();
+const date = computed(() => event.time as Date);
 </script>
 
 <template>
-  <RouterLink
-    :to="`/event/${event.id}`"
-    class="group flex p-2 gap-2 rounded-lg hover:bg-gray-100 focus-visible:bg-gray-100 active:bg-gray-100"
+  <div
+    class="group flex flex-row desktop:gap-8 desktop:p-4 desktop:transition-all desktop:hoctive:bg-current/5 mobile:gap-4
+      mobile:py-2"
   >
+    <div class="mt-1 min-w-24 flex-none text-right text-xs text-gray-500 mobile:hidden">
+      <div v-text="date.toLocaleDateString()"></div>
+      <div v-text="date.toLocaleTimeString()"></div>
+    </div>
     <div
-      class="flex-none relative group-first-of-type:before:hidden group-last-of-type:after:hidden before:border-l-2 before:absolute
-        before:left-[50%] before:-top-2 before:h-2 after:border-l-2 after:absolute after:left-[50%] after:top-12 after:-bottom-2"
+      class="relative flex-none after:absolute after:left-[50%] after:top-12 after:border-l-2 group-first-of-type:before:hidden
+        group-last-of-type:after:hidden desktop:after:-bottom-8 mobile:after:-bottom-4"
     >
-      <MailboxEventIcon class="rounded-full border-2 w-12 h-12 p-2 text-7" :type="event.type" />
+      <div class="grid size-12 place-items-center rounded-full border-2">
+        <MailboxEventIcon class="text-8" :type="event.type" />
+      </div>
     </div>
     <div class="flex-1">
-      <div class="text-xs text-gray-500" v-text="new Date(event.time).toLocaleString()"></div>
-      <div class="font-bold break-all" v-text="event.type"></div>
+      <div class="mb-1 text-xs text-gray-500 desktop:hidden" v-text="date.toLocaleString()"></div>
+      <RouterLink :to="`/event/${event.id}`" class="mb-1 block break-all text-base font-bold" v-text="event.type" />
       <div class="text-sm text-gray-500" v-text="event.comment"></div>
     </div>
-  </RouterLink>
+  </div>
 </template>

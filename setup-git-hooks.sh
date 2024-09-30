@@ -36,7 +36,13 @@ fi
 (
     set -e -x
     cd "$REPO/frontend"
-    npm install --save-dev prettier prettier-plugin-classnames
+    npm install --save-dev \
+        'prettier' \
+        '@vue/compiler-sfc' \
+        '@trivago/prettier-plugin-sort-imports' \
+        'prettier-plugin-tailwindcss' \
+        'prettier-plugin-classnames' \
+        'prettier-plugin-merge'
 )
 if [[ $? -eq 0 ]]; then
     success 'Frontend code formatter installed successfully.'

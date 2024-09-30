@@ -1,5 +1,3 @@
-// src/types/MailboxEvents.ts
-
 export enum EventType {
   MailboxUnlocked = "Mailbox Unlocked",
   MailboxLocked = "Mailbox Locked",
@@ -10,7 +8,7 @@ export enum EventType {
 
 export interface MailboxEvent {
   id: number;
-  time: number;
+  time: Date; // number | string for network, once fetched, need to convert to Date for local processing
   type: string;
   comment: string;
 }

@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { EventType } from "@/types/MailboxEvent";
 import MaterialIcon from "@/components/MaterialIcon.vue";
+import { EventType } from "@/types/MailboxEvent";
+
 const { type } = defineProps<{ type: string }>();
 </script>
 

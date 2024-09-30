@@ -1,5 +1,11 @@
 {
-  "plugins": ["prettier-plugin-classnames"],
+  "plugins": [
+    "@trivago/prettier-plugin-sort-imports",
+    "prettier-plugin-tailwindcss",
+    "prettier-plugin-classnames",
+    "prettier-plugin-merge"
+  ],
   "printWidth": 120,
-  "htmlWhitespaceSensitivity": "ignore"
+  "htmlWhitespaceSensitivity": "ignore",
+  "importOrder": ["^[@.]/components/common/(.*)", "^[@.]/components/(.*)$", "^[@.]/(.*)$", "<THIRD_PARTY_MODULES>"]
 }

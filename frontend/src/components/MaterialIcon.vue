@@ -3,30 +3,24 @@ const { type } = defineProps<{ type: string }>();
 </script>
 
 <template>
-  <div class="material-icon" v-text="type"></div>
+  <span class="font-icon" v-text="type"></span>
 </template>
 
 <style>
-/* Modified version of https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0 */
-
 @font-face {
+  /* https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200 */
   font-family: "Material Symbols Outlined";
-  font-style: normal;
-  font-weight: 400;
-  src: url(https://fonts.gstatic.com/s/materialsymbolsoutlined/v207/kJF1BvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oDMzByHX9rA6RzaxHMPdY43zj-jCxv3fzvRNU22ZXGJpEpjC_1v-p_4MrImHCIJIZrDCvHOej.woff2)
+  src: url(https://fonts.gstatic.com/s/materialsymbolsoutlined/v207/kJEhBvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oFsI.woff2)
     format("woff2");
+  font-display: block;
 }
-
-.material-icon {
+.font-icon {
+  /* Please set font size outside */
+  @apply select-none leading-none;
   font-family: "Material Symbols Outlined";
-  font-weight: normal;
-  font-style: normal;
-  line-height: 1;
-  letter-spacing: normal;
-  text-transform: none;
-  white-space: nowrap;
-  word-wrap: normal;
-  direction: ltr;
-  user-select: none;
+}
+/* Use filled icon for active <RouterLink> */
+.router-link-active .font-icon {
+  font-variation-settings: "FILL" 1;
 }
 </style>
