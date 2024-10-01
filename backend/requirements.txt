@@ -1,0 +1,5 @@
+Flask==2.0.1
+Flask-SQLAlchemy==2.5.1
+sendgrid==6.7.1
+twilio==6.60.0
+requests==2.25.1
