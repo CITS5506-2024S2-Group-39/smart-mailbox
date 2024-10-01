@@ -61,4 +61,88 @@ export default [
     comment:
       "The type and the comment will be displayed as it is. However, if the type is not recognized, its icon will be the same as the one of security alert.",
   },
+  {
+    id: 10,
+    time: new Date("2024-09-29 07:30").getTime(),
+    type: "New Mail",
+    comment: String.raw`A mail cover shows the recipient, LUCAS WHITE, residing at 55 BIRCH STREET, WELLINGTON NZ 6011, received a package from PO BOX 987, AUCKLAND NZ 1023. The mail includes a tracking number (JKL 654-3) and is marked as fragile.`,
+  },
+  {
+    id: 11,
+    time: new Date("2024-09-29 10:00").getTime(),
+    type: "Mailbox Unlocked",
+    comment: "The mailbox was successfully unlocked using your mobile app, allowing mail retrieval.",
+  },
+  {
+    id: 12,
+    time: new Date("2024-09-29 10:05").getTime(),
+    type: "Mailbox Locked",
+    comment: "The mailbox has been locked remotely to ensure security after retrieval.",
+  },
+  {
+    id: 13,
+    time: new Date("2024-09-29 14:30").getTime(),
+    type: "New Mail",
+    comment: String.raw`A mail cover reveals the recipient, OLIVIA CLARK, is at 77 RIVER ROAD, SYDNEY NSW 2000, and the package is sent from LOCKED BAG 202, PERTH WA 6000. This envelope includes a tracking number (DEF 321-7) and appears to contain legal documents.`,
+  },
+  {
+    id: 14,
+    time: new Date("2024-09-30 08:00").getTime(),
+    type: "Password Changed",
+    comment: "You have reset your mailbox password in the web portal.",
+  },
+  {
+    id: 15,
+    time: new Date("2024-09-30 13:15").getTime(),
+    type: "New Mail",
+    comment: String.raw`The mail cover shows the recipient, DAVID GREEN, at 92 OAK STREET, DARWIN NT 0800. It is sent from PO BOX 123, MELBOURNE VIC 3000, and contains prepaid postage and tracking (LMN 567-8). The content appears to be a notification from a telecommunications provider.`,
+  },
+  {
+    id: 16,
+    time: new Date("2024-10-01 09:00").getTime(),
+    type: "Mailbox Unlocked",
+    comment: "The mailbox was manually unlocked using the key.",
+  },
+  {
+    id: 17,
+    time: new Date("2024-10-01 09:10").getTime(),
+    type: "Mailbox Locked",
+    comment: "The mailbox was locked after manual retrieval.",
+  },
+  {
+    id: 18,
+    time: new Date("2024-10-01 11:00").getTime(),
+    type: "New Mail",
+    comment: String.raw`A mail cover features the recipient, SOPHIE KING, residing at 18 PINE STREET, CANBERRA ACT 2600. The letter is sent from PO BOX 222, SYDNEY NSW 2000, and includes a barcode and tracking number (PQR 890-2), indicating it is a tax-related communication.`,
+  },
+  {
+    id: 19,
+    time: new Date("2024-10-01 12:00").getTime(),
+    type: "Security Alert",
+    comment: "Suspicious activity detected: three failed attempts to unlock the mailbox using an incorrect password.",
+  },
+  {
+    id: 20,
+    time: new Date("2024-10-01 12:30").getTime(),
+    type: "Password Changed",
+    comment: "You have successfully changed your password due to a security alert.",
+  },
+  {
+    id: 21,
+    time: new Date("2024-10-02 08:30").getTime(),
+    type: "New Mail",
+    comment: String.raw`The mail cover shows the recipient, JOHN DOE, at 99 BAKER STREET, LONDON UK WC2N 5DU. The package is sent from PO BOX 789, MANCHESTER UK M3 1HP, and includes prepaid postage and tracking (GHI 234-5), indicating it is a business contract.`,
+  },
+  {
+    id: 22,
+    time: new Date("2024-10-02 10:00").getTime(),
+    type: "Mailbox Unlocked",
+    comment: "The mailbox was unlocked via fingerprint authentication.",
+  },
+  {
+    id: 23,
+    time: new Date("2024-10-02 10:10").getTime(),
+    type: "Mailbox Locked",
+    comment: "The mailbox has been securely locked after retrieval using fingerprint authentication.",
+  },
 ].reverse();
