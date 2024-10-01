@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import Icon from "@/components/common/Icon.vue";
 import Logo from "@/components/Logo.vue";
-import MaterialIcon from "@/components/MaterialIcon.vue";
 import NavbarItem from "@/components/NavbarItem.vue";
 import ToastList from "@/components/ToastList.vue";
 import { RouterLink, RouterView } from "vue-router";
@@ -16,10 +16,10 @@ import { RouterLink, RouterView } from "vue-router";
       class="flex items-center gap-2 rounded-full bg-gray-100 p-2 desktop:absolute desktop:left-1/2 desktop:w-1/3
         desktop:-translate-x-1/2 mobile:flex-1"
     >
-      <MaterialIcon type="search" class="text-6" />
+      <Icon type="search" class="text-6" />
       <input type="text" class="w-full bg-transparent" />
     </div>
-    <MaterialIcon type="notifications" class="flex-none text-6" />
+    <Icon type="notifications" class="flex-none text-6" />
   </header>
 
   <nav

@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import Icon from "@/components/common/Icon.vue";
 import List from "@/components/common/List.vue";
-import MaterialIcon from "@/components/MaterialIcon.vue";
 import { toasts } from "@/stores/toast";
 import id from "@/utils/object-id";
 </script>
@@ -18,7 +18,7 @@ import id from "@/utils/object-id";
       }"
     >
       <div class="flex flex-row items-center gap-2">
-        <MaterialIcon :type="toast.icon" class="text-4" />
+        <Icon :type="toast.icon" class="text-4" />
         <span class="text-base font-bold" v-text="toast.title"></span>
       </div>
       <div class="text-sm" v-text="toast.message"></div>
