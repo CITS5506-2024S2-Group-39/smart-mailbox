@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import List from "@/components/common/List.vue";
 import TimelineItemGroup from "@/components/TimelineItemGroup.vue";
 import { requestAPI } from "@/api";
 import events from "@/stores/events";
@@ -26,7 +27,10 @@ const groups = computed(() => {
 </script>
 
 <template>
-  <section>
-    <TimelineItemGroup v-for="(value, key) in groups" :title="key" :events="value" />
-  </section>
+  <List>
+    <TimelineItemGroup v-for="(value, key) in groups" :key="key" :title="key" :events="value" />
+    <div class="text-center text-sm text-gray-500 desktop:mt-8 mobile:mt-4">
+      --- You have reached the beginning of time ---
+    </div>
+  </List>
 </template>
