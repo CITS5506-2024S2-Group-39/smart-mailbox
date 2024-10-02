@@ -12,7 +12,9 @@
     "pretty": "prettier --write"
   },
   "dependencies": {
+    "chart.js": "^4.4.4",
     "vue": "^3.4.29",
+    "vue-data-ui": "^2.3.4",
     "vue-router": "^4.3.3"
   },
   "devDependencies": {
