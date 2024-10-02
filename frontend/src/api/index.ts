@@ -1,4 +1,4 @@
-import events from "./events";
+import events from "@/api/events";
 import { showError } from "@/stores/toast";
 import sleep from "@/utils/sleep";
 

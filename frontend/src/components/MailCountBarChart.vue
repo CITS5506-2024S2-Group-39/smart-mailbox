@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Card from "@/components/common/Card.vue";
 import MonthSelector from "@/components/MonthSelector.vue";
-import router from "@/routes";
+import router from "@/router";
 import events from "@/stores/events";
 import { EventType, type MailboxEvent } from "@/types/MailboxEvent";
 import arrayEqual from "@/utils/array-equal";
@@ -70,6 +70,33 @@ const updateDataset = () => {
   return true;
 };
 
+const onClick = (event: ChartEvent, elements: ActiveElement[], chart: Chart<"bar", number[], string>) => {
+  // As we only have one dataset, there should be exactly one element that can be clicked at a time
+  if (elements.length !== 1) {
+    return;
+  }
+
+  // Retrieve the value associated with the element
+  const [element] = elements;
+  const { index } = element;
+  const value = data[index];
+
+  // If the value is not valid (In case it is not an expected integer, use !(value > 0) here)
+  // Or is zero, there is no point to navigating to corresponding date in the timeline
+  if (!(value > 0)) {
+    return;
+  }
+
+  // Create a copy of the currently selected month
+  // and set it as the date corresponding to the element
+  const date = new Date(month.value);
+  date.setDate(index + 1);
+
+  // Get anchor and navigate to corresponding date in the timeline
+  const anchor = date.toLocaleDateString();
+  router.push({ path: "/timeline", hash: "#" + anchor });
+};
+
 const configuration: ChartConfigurationCustomTypesPerDataset<"bar", number[], string> = {
   data: {
     xLabels: labels,
@@ -104,6 +131,7 @@ const configuration: ChartConfigurationCustomTypesPerDataset<"bar", number[], st
 
     // Interaction related
     interaction: { mode: "index", axis: "x", intersect: false },
+    onClick: onClick,
   },
 };
 

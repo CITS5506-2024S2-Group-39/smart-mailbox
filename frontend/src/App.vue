@@ -41,7 +41,11 @@ import { RouterLink, RouterView } from "vue-router";
 
   <div class="pt-header-height desktop:pl-navbar-width mobile:pb-navbar-height">
     <main class="desktop:p-8 mobile:p-4">
-      <RouterView />
+      <RouterView v-slot="{ Component }">
+        <KeepAlive :include="['HomeView', 'StatisticsView', 'TimelineView']">
+          <component :is="Component" :key="$route.fullPath"></component>
+        </KeepAlive>
+      </RouterView>
     </main>
   </div>
 </template>

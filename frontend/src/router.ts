@@ -16,4 +16,12 @@ export default createRouter({
     { path: "/settings", component: SettingsView },
     { path: "/account", component: AccountView },
   ],
+  scrollBehavior(to, from, savedPosition) {
+    if (to.hash) {
+      return {
+        el: to.hash,
+        behavior: "smooth",
+      };
+    }
+  },
 });
