@@ -146,8 +146,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <Card>
-    <template v-slot:title>Daily Mail Count</template>
+  <Card title="Daily Mail Count">
     <template v-slot:additional>
       <MonthSelector v-model="month" />
     </template>

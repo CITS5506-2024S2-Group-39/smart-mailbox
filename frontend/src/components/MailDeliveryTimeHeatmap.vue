@@ -98,8 +98,7 @@ const dataset = computed(() => {
 </script>
 
 <template>
-  <Card>
-    <template v-slot:title>Delivery Time Heatmap</template>
+  <Card title="Delivery Time Heatmap">
     <div class="pointer-events-none" v-if="dataset">
       <!-- Disabling pointer events for VueDataUi as nothing useful can be implemented yet -->
       <VueDataUi component="VueUiHeatmap" :dataset="dataset" :config="heatmapConfig" :style="styleFix" />
