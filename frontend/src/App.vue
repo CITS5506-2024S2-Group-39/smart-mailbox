@@ -35,7 +35,7 @@ import { RouterLink, RouterView } from "vue-router";
     <NavbarItem class="desktop:border-t mobile:order-5" href="/account" icon="account_circle" title="Account" />
   </nav>
 
-  <aside class="fixed right-0 top-header-height z-50 w-screen desktop:max-w-96 mobile:max-w-64">
+  <aside class="pointer-events-none fixed right-0 top-header-height z-50 w-screen desktop:max-w-96 mobile:max-w-64">
     <ToastList />
   </aside>
 
