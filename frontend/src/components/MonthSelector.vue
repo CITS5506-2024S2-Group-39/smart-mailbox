@@ -133,7 +133,7 @@ const handleMonthAdjust = (delta: number) => {
     <input
       type="text"
       size="7"
-      class="flex-1 bg-transparent text-center text-sm font-bold"
+      class="flex-1 bg-transparent text-center text-base font-bold"
       :value="toMonthString(model)"
       @blur="handleTextInput($event)"
       @keydown.enter="handleTextInput($event)"

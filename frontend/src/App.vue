@@ -17,7 +17,7 @@ import { RouterLink, RouterView } from "vue-router";
         desktop:-translate-x-1/2 mobile:flex-1"
     >
       <Icon type="search" class="text-6" />
-      <input type="text" class="w-full bg-transparent" />
+      <input type="text" class="w-full bg-transparent text-base" />
     </div>
     <Icon type="notifications" class="flex-none text-6" />
   </header>
