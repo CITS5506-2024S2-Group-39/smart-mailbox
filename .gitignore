@@ -6,16 +6,20 @@
 !.gitkeep
 
 # Node.js
-node_modules
-dist
-logs
+node_modules/
+dist/
+logs/
 *.log
 !.prettierrc.json
 
-# I prefer not to keep this file, as the project isn't particularly sensitive to dependency versions
+# Exclude package-lock.json as the project is not sensitive to dependency versions.
 package-lock.json
 
 # Python
-__pycache__
-venv
+__pycache__/
+venv/
 *.pyc
+
+# Exclude image artifacts. If necessary, add files explicitly.
+*.jpg
+*.png
