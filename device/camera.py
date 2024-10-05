@@ -1,37 +1,39 @@
-import picamera2
+from picamera2 import Picamera2
 import time
 import RPi.GPIO as GPIO
-
-# Set the GPIO pin number for the light sensor
-sensor_pin = 17  # Adjust according to the actual pin
-
-# Initialize GPIO
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(sensor_pin, GPIO.IN)
+from config import Config
+import requests
 
 # Initialize the camera
 camera = picamera2.Picamera2()
 
-try:
-    print("Waiting for light interruption signal...")
-    # Wait for the light interruption signal (assuming high level indicates the signal)
-    while GPIO.input(sensor_pin) == 0:
-        time.sleep(0.1)  # Polling interval
+def setup_camera():
+    #Sets up the GPIO for the sensor and camera
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(Config.SENSOR_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-    print("Light interruption detected, waiting for 1 second...")
-    time.sleep(1)  # Wait for 1 second
+def is_sensor_triggered():
+    #Checks if the sensor is triggered (beam interrupted).
+    return GPIO.input(Config.SENSOR_PIN) == GPIO.LOW
 
-    # Start the camera and capture a photo
+def capture_image():
+    #Captures an image using the Pi Camera.
+    print("Capturing image...")
     camera.start()
-    time.sleep(2)  # Allow the camera to adjust brightness
-    image_path = "Firstpic.jpg"
-    camera.capture_file(image_path)
+    time.sleep(2)  
+    camera.capture_file(Config.IMAGE_STORAGE_PATH)
     camera.stop()
-    print("Photo taken, image saved at:", image_path)
+    print(f"Image saved at {Config.IMAGE_STORAGE_PATH}")
 
-except KeyboardInterrupt:
-    print("Program interrupted")
+def send_image_to_backend():
+    #Sends the captured image to the backend.
+    url = Config.API_ENDPOINTS['mail_event']
+    files = {'file': open(Config.IMAGE_STORAGE_PATH, 'rb')}
+    data = {'device_id': Config.DEVICE_ID}
 
-finally:
-    # Clean up GPIO settings
-    GPIO.cleanup()
+    try:
+        response = requests.post(url, files=files, data=data, timeout=Config.REQUEST_TIMEOUT)
+        response.raise_for_status()
+        print(f"Image sent to backend successfully: {response.status_code}")
+    except requests.exceptions.RequestException as e:
+        print(f"Failed to send image: {e}")
