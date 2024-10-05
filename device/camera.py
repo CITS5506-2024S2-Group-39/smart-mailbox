@@ -7,17 +7,18 @@ import requests
 # Initialize the camera
 camera = picamera2.Picamera2()
 
+#Sets up the GPIO for the sensor and camera
 def setup_camera():
-    #Sets up the GPIO for the sensor and camera
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(Config.SENSOR_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    print("Camera set up is done")  # for debugging 
 
+#Checks if the sensor is triggered (beam interrupted).
 def is_sensor_triggered():
-    #Checks if the sensor is triggered (beam interrupted).
     return GPIO.input(Config.SENSOR_PIN) == GPIO.LOW
 
+#Captures an image using the Pi Camera.
 def capture_image():
-    #Captures an image using the Pi Camera.
     print("Capturing image...")
     camera.start()
     time.sleep(2)  
@@ -25,8 +26,8 @@ def capture_image():
     camera.stop()
     print(f"Image saved at {Config.IMAGE_STORAGE_PATH}")
 
+#Sends the captured image to the backend.
 def send_image_to_backend():
-    #Sends the captured image to the backend.
     url = Config.API_ENDPOINTS['mail_event']
     files = {'file': open(Config.IMAGE_STORAGE_PATH, 'rb')}
     data = {'device_id': Config.DEVICE_ID}
