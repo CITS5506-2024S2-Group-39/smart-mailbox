@@ -13,16 +13,16 @@ const { collapsed } = defineProps<{ collapsed: boolean }>();
 <style>
 .collapse-enter-from,
 .collapse-leave-to {
-  opacity: 0;
-  max-height: 0;
+  @apply opacity-0;
+  @apply max-h-0;
 }
 .collapse-enter-to,
 .collapse-leave-from {
-  opacity: 1;
-  max-height: 100vh;
+  @apply opacity-100;
+  @apply max-h-screen;
 }
 .collapse-enter-active,
 .collapse-leave-active {
-  @apply transition-all;
+  @apply transition-all !important;
 }
 </style>

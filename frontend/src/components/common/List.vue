@@ -26,12 +26,12 @@ const onBeforeLeave = (el: Element) => {
 }
 .list-enter-active,
 .list-leave-active {
-  @apply transition-all;
+  @apply transition-all !important;
 }
 /* Enable list move */
 /* https://vuejs.org/guide/built-ins/transition-group.html#move-transitions */
 .list-move {
-  @apply transition-all;
+  @apply transition-all !important;
 }
 .list-leave-active {
   @apply absolute;
