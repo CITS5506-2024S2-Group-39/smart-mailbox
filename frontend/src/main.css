@@ -5,3 +5,15 @@
 body {
   touch-action: pan-y;
 }
+
+/* Device breakpoints corresponding to screen definitions in tailwindcss.config.ts */
+@media (min-width: 1024px) {
+  :root {
+    --standard-spacing: 2rem; /* Standard spacing for larger screens */
+  }
+}
+@media (max-width: 1023.999999px) {
+  :root {
+    --standard-spacing: 1rem; /* Standard spacing for smaller screens */
+  }
+}

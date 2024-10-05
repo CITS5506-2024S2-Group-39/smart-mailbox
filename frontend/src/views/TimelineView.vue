@@ -27,10 +27,8 @@ const groups = computed(() => {
 </script>
 
 <template>
-  <List>
+  <List class="flex flex-col gap-std p-std">
     <TimelineItemGroup v-for="(value, key) in groups" :key="key" :title="key" :events="value" />
-    <div class="text-center text-sm text-gray-500 desktop:mt-8 mobile:mt-4">
-      --- You have reached the beginning of time ---
-    </div>
+    <div class="text-center text-sm text-neutral-500">--- You have reached the beginning of time ---</div>
   </List>
 </template>

@@ -150,6 +150,6 @@ onMounted(() => {
     <template v-slot:additional>
       <MonthSelector v-model="month" />
     </template>
-    <canvas ref="figure" class="flex-none"></canvas>
+    <canvas ref="figure"></canvas>
   </Card>
 </template>

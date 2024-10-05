@@ -8,26 +8,25 @@ const date = computed(() => event.time as Date);
 </script>
 
 <template>
-  <div
-    class="group flex flex-row desktop:gap-8 desktop:p-4 desktop:transition-all desktop:hoctive:bg-current/5 mobile:gap-4
-      mobile:py-2"
-  >
-    <div class="mt-1 min-w-24 flex-none text-right text-xs text-gray-500 mobile:hidden">
+  <div class="group flex flex-row gap-std px-std py-std/2 transition-colors last-of-type:pb-std hoctive:bg-current/5">
+    <div class="w-28 text-right text-xs/loose text-neutral-500 mobile:hidden">
       <div v-text="date.toLocaleDateString()"></div>
       <div v-text="date.toLocaleTimeString()"></div>
     </div>
-    <div
-      class="relative flex-none after:absolute after:left-[calc(50%-1px)] after:top-12 after:border-l-2
-        group-first-of-type:before:hidden group-last-of-type:after:hidden desktop:after:-bottom-8 mobile:after:-bottom-4"
-    >
-      <div class="grid size-12 place-items-center rounded-full border-2">
-        <MailboxEventIcon class="text-8" :type="event.type" />
+    <div class="-my-std/2 flex flex-col items-center">
+      <!-- The upper line -->
+      <div class="h-std/2 w-[2px] bg-neutral-200 group-first-of-type:invisible"></div>
+      <!-- The center circle -->
+      <div class="grid place-items-center rounded-full border-[2px] border-neutral-200 desktop:size-13 mobile:size-12">
+        <MailboxEventIcon class="desktop:text-8 mobile:text-7" :type="event.type" />
       </div>
+      <!-- The lower line -->
+      <div class="w-[2px] flex-1 bg-neutral-200 group-last-of-type:invisible"></div>
     </div>
-    <div class="flex-1">
-      <div class="mb-1 text-xs text-gray-500 desktop:hidden" v-text="date.toLocaleString()"></div>
-      <RouterLink :to="`/event/${event.id}`" class="mb-1 block break-all text-base font-bold" v-text="event.type" />
-      <div class="text-sm text-gray-500" v-text="event.comment"></div>
+    <div class="flex flex-1 flex-col gap-1">
+      <div class="text-xs text-neutral-500 desktop:hidden" v-text="date.toLocaleString()"></div>
+      <RouterLink :to="`/event/${event.id}`" class="block break-all text-base font-bold" v-text="event.type" />
+      <div class="text-sm text-neutral-500" v-text="event.comment"></div>
     </div>
   </div>
 </template>

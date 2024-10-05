@@ -8,44 +8,33 @@ import { RouterLink, RouterView } from "vue-router";
 
 <template>
   <header
-    class="fixed left-0 right-0 top-0 z-10 flex h-header-height items-center overflow-x-auto overflow-y-hidden border-b bg-white
-      desktop:justify-between desktop:gap-6 desktop:px-6 mobile:gap-4 mobile:px-4"
+    class="fixed inset-x-0 top-0 z-20 flex h-header-height items-center justify-between gap-std overflow-x-auto bg-neutral-900
+      px-std text-white"
   >
-    <Logo class="flex-none text-6" />
-    <div
-      class="flex items-center gap-2 rounded-full bg-gray-100 p-2 desktop:absolute desktop:left-1/2 desktop:w-1/3
-        desktop:-translate-x-1/2 mobile:flex-1"
-    >
-      <Icon type="search" class="text-6" />
-      <input type="text" class="w-full bg-transparent text-base" />
-    </div>
-    <Icon type="notifications" class="flex-none text-6" />
+    <Logo class="text-6" />
+    <Icon type="notifications" class="text-6" />
   </header>
-
   <nav
-    class="fixed left-0 z-10 flex items-center bg-white desktop:bottom-0 desktop:top-header-height desktop:w-navbar-width
-      desktop:flex-col desktop:overflow-y-auto desktop:overflow-x-hidden desktop:border-r mobile:bottom-0 mobile:right-0
-      mobile:h-navbar-height mobile:flex-row mobile:overflow-x-auto mobile:overflow-y-hidden mobile:border-t"
+    class="fixed bottom-0 left-0 z-10 flex items-center bg-neutral-900 text-white desktop:top-header-height desktop:w-navbar-width
+      desktop:flex-col desktop:overflow-y-auto mobile:right-0 mobile:h-navbar-height mobile:flex-row mobile:gap-std
+      mobile:overflow-x-auto mobile:px-std"
   >
+    <div class="w-full border-b border-neutral-800 mobile:hidden"></div>
     <NavbarItem class="mobile:order-3" href="/" icon="home" title="Home" />
     <NavbarItem class="mobile:order-2" href="/timeline" icon="event_note" title="Timeline" />
     <NavbarItem class="mobile:order-1" href="/statistics" icon="leaderboard" title="Statistics" />
     <NavbarItem class="mobile:order-4" href="/settings" icon="settings" title="Settings" />
-    <div class="desktop:flex-1 mobile:hidden"></div>
-    <NavbarItem class="desktop:border-t mobile:order-5" href="/account" icon="account_circle" title="Account" />
+    <div class="w-full flex-1 border-b border-neutral-800 mobile:hidden"></div>
+    <NavbarItem class="mobile:order-5" href="/account" icon="account_circle" title="Account" />
   </nav>
-
-  <aside class="pointer-events-none fixed right-0 top-header-height z-50 w-screen desktop:max-w-96 mobile:max-w-64">
-    <ToastList />
-  </aside>
-
-  <div class="pt-header-height desktop:pl-navbar-width mobile:pb-navbar-height">
-    <main class="desktop:p-8 mobile:p-4">
-      <RouterView v-slot="{ Component }">
-        <KeepAlive :include="['HomeView', 'StatisticsView', 'TimelineView']">
-          <component :is="Component" :key="$route.fullPath"></component>
-        </KeepAlive>
-      </RouterView>
-    </main>
-  </div>
+  <ToastList />
+  <main
+    class="min-h-screen bg-neutral-100 pt-header-height text-neutral-900 desktop:pl-navbar-width mobile:pb-navbar-height"
+  >
+    <RouterView v-slot="{ Component }">
+      <KeepAlive :include="['HomeView', 'StatisticsView', 'TimelineView']">
+        <component :is="Component" :key="$route.fullPath"></component>
+      </KeepAlive>
+    </RouterView>
+  </main>
 </template>

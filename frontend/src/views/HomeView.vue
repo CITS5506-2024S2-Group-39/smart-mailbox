@@ -32,7 +32,7 @@ const mailsSinceTimeBegins = computed(() => {
 </script>
 
 <template>
-  <div class="desktop:grid desktop:grid-cols-4 desktop:gap-8 mobile:flex mobile:flex-col mobile:gap-4">
+  <div class="grid gap-std p-std desktop:grid-cols-4 mobile:grid-cols-1">
     <Card class="desktop:order-1 desktop:col-span-2" title="Count of New Mails">
       <div class="flex flex-row desktop:gap-8 mobile:gap-4">
         <div class="flex basis-1/2 flex-col justify-between desktop:gap-8 mobile:gap-4">
@@ -66,12 +66,12 @@ const mailsSinceTimeBegins = computed(() => {
         <div class="desktop:absolute desktop:inset-0">
           <div class="flex flex-col desktop:gap-4 mobile:gap-4">
             <div class="flex flex-row desktop:gap-4 mobile:gap-4">
-              <span class="basis-1/2 font-bold desktop:flex-none">Status</span>
-              <span class="break-none basis-1/2 desktop:flex-1">Online</span>
+              <span class="flex-none basis-1/3 font-bold">Status</span>
+              <span class="break-none flex-1 basis-2/3">Online</span>
             </div>
             <div class="flex flex-row desktop:gap-4 mobile:gap-4">
-              <span class="basis-1/2 font-bold desktop:flex-none">Uptime</span>
-              <span class="break-none basis-1/2 text-nowrap desktop:flex-1">132 Day 8 Hours</span>
+              <span class="flex-none basis-1/3 font-bold">Uptime</span>
+              <span class="break-none flex-1 basis-2/3 text-nowrap">132 Day 8 Hours</span>
             </div>
           </div>
         </div>
@@ -81,11 +81,11 @@ const mailsSinceTimeBegins = computed(() => {
       <div class="desktop:relative desktop:size-full desktop:overflow-auto">
         <div class="flex flex-col gap-4 desktop:absolute desktop:inset-0">
           <AspectRatio ratio=" 4608 / 2592" class="bg-blue-100"></AspectRatio>
-          <p class="max-h">
+          <div>
             The mail cover shows the recipient, JOHN DOE, at 99 BAKER STREET, LONDON UK WC2N 5DU. The package is sent
             from PO BOX 789, MANCHESTER UK M3 1HP, and includes prepaid postage and tracking (GHI 234-5), indicating it
             is a business contract.
-          </p>
+          </div>
         </div>
       </div>
     </Card>

@@ -125,10 +125,10 @@ const handleMonthAdjust = (delta: number) => {
 <template>
   <div class="flex flex-row items-center">
     <Button
-      class="flex flex-none items-center justify-center desktop:transition-colors desktop:hoctive:bg-current/5"
+      class="flex items-center justify-center desktop:transition-colors desktop:hoctive:bg-current/5"
       @click="handleMonthAdjust(-1)"
     >
-      <Icon type="keyboard_arrow_left" class="text-6 text-gray-500" />
+      <Icon type="keyboard_arrow_left" class="text-6 text-neutral-500" />
     </Button>
     <input
       type="text"
@@ -139,10 +139,10 @@ const handleMonthAdjust = (delta: number) => {
       @keydown.enter="handleTextInput($event)"
     />
     <Button
-      class="flex flex-none items-center justify-center desktop:transition-colors desktop:hoctive:bg-current/5"
+      class="flex items-center justify-center desktop:transition-colors desktop:hoctive:bg-current/5"
       @click="handleMonthAdjust(+1)"
     >
-      <Icon type="keyboard_arrow_right" class="text-6 text-gray-500" />
+      <Icon type="keyboard_arrow_right" class="text-6 text-neutral-500" />
     </Button>
   </div>
 </template>
