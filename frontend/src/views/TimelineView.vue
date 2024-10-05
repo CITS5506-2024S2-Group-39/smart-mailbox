@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import List from "@/components/common/List.vue";
 import TimelineItemGroup from "@/components/TimelineItemGroup.vue";
-import { requestAPI } from "@/api";
 import events from "@/stores/events";
-import { showSuccess } from "@/stores/toast";
 import type { MailboxEvent } from "@/types/MailboxEvent";
-import { setIntervalWithCancel } from "@/utils/timeout";
-import { ref, computed, onBeforeUnmount } from "vue";
+import { computed } from "vue";
 
 // Mailbox events grouped by date
 const groups = computed(() => {

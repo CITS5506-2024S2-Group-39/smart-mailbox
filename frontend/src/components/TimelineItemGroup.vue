@@ -6,10 +6,10 @@ import Icon from "@/components/common/Icon.vue";
 import List from "@/components/common/List.vue";
 import TimelineItem from "@/components/TimelineItem.vue";
 import { type MailboxEvent } from "@/types/MailboxEvent";
-import { ref } from "vue";
+import { shallowRef } from "vue";
 
 const { title, events } = defineProps<{ title: string; events: MailboxEvent[] }>();
-const collapsed = ref<boolean>(false);
+const collapsed = shallowRef<boolean>(false);
 </script>
 
 <template>

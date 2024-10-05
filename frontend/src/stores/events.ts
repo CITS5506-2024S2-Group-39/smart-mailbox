@@ -1,9 +1,9 @@
 import { requestAPI } from "@/api";
 import type { MailboxEvent } from "@/types/MailboxEvent";
 import { setIntervalWithCancel } from "@/utils/timeout";
-import { shallowRef, ref } from "vue";
+import { shallowRef } from "vue";
 
-const events = ref<MailboxEvent[]>([]);
+const events = shallowRef<MailboxEvent[]>([]);
 export default events;
 
 // Handler to load latest events list from backend
