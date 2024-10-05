@@ -34,7 +34,6 @@ const saveScroll: NavigationGuardWithThis<undefined> = (to, from, next) => {
   if (scrolls.has(path)) {
     const { scrollY } = window;
     scrolls.set(path, scrollY);
-    console.log(scrolls);
   }
 
   next();
@@ -62,6 +61,12 @@ const restoreScroll: RouterScrollBehavior = (to, from, savedPosition) => {
       top: scrollY,
     };
   }
+
+  // By default, scroll to top
+  return {
+    behavior: "instant",
+    top: 0,
+  };
 };
 
 const router = createRouter({
