@@ -1,7 +1,46 @@
 import { requestAPI } from "@/api";
-import type { MailboxEvent } from "@/types/MailboxEvent";
 import { setIntervalWithCancel } from "@/utils/timeout";
 import { shallowRef } from "vue";
+
+export enum EventType {
+  MailboxUnlocked = "Mailbox Unlocked",
+  MailboxLocked = "Mailbox Locked",
+  MailboxPasswordChanged = "Password Changed",
+  MailboxIncomingMail = "New Mail",
+  MailboxSecurityAlert = "Security Alert",
+}
+
+interface EventData {
+  summary: string;
+  // Different event type will have different custom fields here
+}
+
+interface MailEventData extends EventData {
+  recipient_name: string | null;
+  recipient_address: {
+    street: string | null;
+    city: string | null;
+    state: string | null;
+    postal_code: string | null;
+  };
+  sender_name: string | null;
+  sender_address: {
+    street: string | null;
+    city: string | null;
+    state: string | null;
+    postal_code: string | null;
+  };
+  tracking_number: string | null;
+  postage_information: string | null;
+  mail_type: string;
+}
+
+export interface MailboxEvent {
+  id: number;
+  time: Date; // number | string for network, once fetched, need to convert to Date for local processing
+  type: string; // one of EventType
+  data: EventData | MailEventData;
+}
 
 const events = shallowRef<MailboxEvent[]>([]);
 export default events;

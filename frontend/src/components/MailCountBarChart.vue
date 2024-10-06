@@ -2,8 +2,7 @@
 import Card from "@/components/common/Card.vue";
 import MonthSelector from "@/components/MonthSelector.vue";
 import router from "@/router";
-import events from "@/stores/events";
-import { EventType, type MailboxEvent } from "@/types/MailboxEvent";
+import events, { EventType, type MailboxEvent } from "@/stores/events";
 import arrayEqual from "@/utils/array-equal";
 import Chart, { type ChartConfigurationCustomTypesPerDataset } from "chart.js/auto";
 import type { ActiveElement, ChartEvent } from "chart.js/auto";

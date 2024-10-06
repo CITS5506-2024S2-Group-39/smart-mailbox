@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import Card from "@/components/common/Card.vue";
-import events from "@/stores/events";
-import { EventType } from "@/types/MailboxEvent";
+import events, { EventType } from "@/stores/events";
 import Weekdays from "@/utils/weekday";
 import colors from "tailwindcss/colors";
 import { computed } from "vue";

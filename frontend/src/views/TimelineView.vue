@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import List from "@/components/common/List.vue";
 import TimelineItemGroup from "@/components/TimelineItemGroup.vue";
-import events from "@/stores/events";
-import type { MailboxEvent } from "@/types/MailboxEvent";
+import events, { type MailboxEvent } from "@/stores/events";
 import { computed } from "vue";
 
 // Mailbox events grouped by date

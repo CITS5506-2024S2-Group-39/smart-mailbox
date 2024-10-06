@@ -3,9 +3,7 @@ import AspectRatio from "@/components/common/AspectRatio.vue";
 import Card from "@/components/common/Card.vue";
 import Icon from "@/components/common/Icon.vue";
 import NumberDisplay from "@/components/NumberDisplay.vue";
-import TimelineView from "./TimelineView.vue";
-import events from "@/stores/events";
-import { EventType } from "@/types/MailboxEvent";
+import events, { EventType } from "@/stores/events";
 import { computed } from "vue";
 
 const mailsSinceLastOpen = computed(() => {

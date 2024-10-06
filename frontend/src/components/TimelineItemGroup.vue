@@ -5,7 +5,7 @@ import Collapse from "@/components/common/Collapse.vue";
 import Icon from "@/components/common/Icon.vue";
 import List from "@/components/common/List.vue";
 import TimelineItem from "@/components/TimelineItem.vue";
-import { type MailboxEvent } from "@/types/MailboxEvent";
+import { type MailboxEvent } from "@/stores/events";
 import { shallowRef } from "vue";
 
 const { title, events } = defineProps<{ title: string; events: MailboxEvent[] }>();

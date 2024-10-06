@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Icon from "@/components/common/Icon.vue";
-import { EventType } from "@/types/MailboxEvent";
+import { EventType } from "@/stores/events";
 
 const { type } = defineProps<{ type: string }>();
 </script>
