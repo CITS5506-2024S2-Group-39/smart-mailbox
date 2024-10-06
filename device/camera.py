@@ -11,6 +11,8 @@ camera = picamera2.Picamera2()
 def setup_camera():
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(Config.SENSOR_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(Config.LED_PIN, GPIO.OUT) 
+
     print("Camera set up is done")  # for debugging 
 
 #Checks if the sensor is triggered (beam interrupted).
@@ -19,11 +21,14 @@ def is_sensor_triggered():
 
 #Captures an image using the Pi Camera.
 def capture_image():
+    GPIO.output(LED_LIGHT_PIN, GPIO.HIGH)  # Turn on LED
     print("Capturing image...")
     camera.start()
     time.sleep(2)  
     camera.capture_file(Config.IMAGE_STORAGE_PATH)
     camera.stop()
+    GPIO.output(LED_LIGHT_PIN, GPIO.LOW)  # Turn off LED
+
     print(f"Image saved at {Config.IMAGE_STORAGE_PATH}")
 
 #Sends the captured image to the backend.
