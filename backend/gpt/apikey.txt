@@ -1,1 +1,0 @@
-Replace this line with your OpenAI API key; do not include any new lines.
