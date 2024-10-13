@@ -1,50 +1,71 @@
+import threading
+import datetime
 import time
-import RPi.GPIO as GPIO
 from picamera2 import Picamera2
+import RPi.GPIO as GPIO
+import config
+import requests
 
-# Set GPIO pin for the break beam sensor
-BEAM_SENSOR_PIN = 25  # Adjust according to your wiring
-LED_LIGHT_PIN = 23
-CAMERA_IMAGE_PATH = "mail_image.jpg"
+# Initialize the camera
+camera = picamera2.Picamera2()
 
-# Set up GPIO
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(BEAM_SENSOR_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Use pull-up resistor
-GPIO.setup(LED_LIGHT_PIN, GPIO.OUT)
+#Sets up the GPIO for the sensor and camera
+def setup_camera():
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(config.Config.SENSOR_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(config.Config.LED_PIN, GPIO.OUT) 
+    print("Camera set up is done")  # for debugging 
 
-# Initialize camera
-camera = Picamera2()
-
-if GPIO.input(BEAM_SENSOR_PIN) == GPIO.LOW:
-    print("Waiting for beam to be restored...")
-    while GPIO.input(BEAM_SENSOR_PIN) == GPIO.LOW:
-        time.sleep(0.1)
-
-
-# Define function to capture image
+#Captures an image using the Pi Camera.
 def capture_image():
-    GPIO.output(LED_LIGHT_PIN, GPIO.HIGH)
+    formatted_time = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+    filename = f"image-{formatted_time}.jpg"
+
+
+    GPIO.output(LED_LIGHT_PIN, GPIO.HIGH)  # Turn on LED
+    print("Capturing image...")
     camera.start()
-    time.sleep(2)  # Warm-up time for camera to stabilize image
-    camera.capture_file(CAMERA_IMAGE_PATH)
+    time.sleep(2)  
+    camera.capture_file(filename)
     camera.stop()
-    GPIO.output(LED_LIGHT_PIN, GPIO.LOW)
+    GPIO.output(LED_LIGHT_PIN, GPIO.LOW)  # Turn off LED
 
+    print(f"Image saved at {filename}")
+    return filename 
 
-try:
-    print("Waiting for mail...")
+# !!!! Still haven't verified this logic!!!
+#Sends the captured image to the backend
+def send_image_to_backend():
+    url = config.Config.API_ENDPOINTS['mail_event']
+    files = {'file': open(config.Config.IMAGE_STORAGE_PATH, 'rb')}
+    data = {'device_id': config.Config.DEVICE_ID}
 
-    while True:
-        # Wait for the beam to be interrupted (LOW indicates beam is broken)
-        if GPIO.input(BEAM_SENSOR_PIN) == GPIO.LOW:
-            print("Mail detected! Capturing image...")
-            capture_image()  # Call function to capture image
-            # Wait for the beam to be restored (when the beam returns to HIGH)
-            while GPIO.input(BEAM_SENSOR_PIN) == GPIO.LOW:
-                time.sleep(0.1)
-            print("Beam restored, ready for next detection...")
-        time.sleep(0.1)
-except KeyboardInterrupt:
-    print("Program terminated")
-finally:
-    GPIO.cleanup()  # Clean up GPIO settings
+    try:
+        response = requests.post(url, files=files, data=data, timeout=config.Config.REQUEST_TIMEOUT)
+        response.raise_for_status()
+        print(f"Image sent to backend successfully: {response.status_code}")
+    except requests.exceptions.RequestException as e:
+        print(f"Failed to send image: {e}")
+
+# Thread to monitor mail detection
+def daemon():
+    print("Mailbox monitoring thread started")
+
+    while not config.interrupt.is_set():
+        if GPIO.input(config.Config.SENSOR_PIN) == GPIO.LOW:
+            print("Mail detected, capturing image...")
+            filename = capture_image()
+
+            # Create an event and add it to the message queue
+            event = config.Event(event_type="mail", data=filename)
+            config.message_queue.put(event)
+
+        time.sleep(1)  # Polling interval
+
+    print("Mailbox monitoring thread stopped")
+
+# Initialize the thread
+def init():
+    setup_camera()
+    thread = threading.Thread(target=daemon)
+    thread.start()
