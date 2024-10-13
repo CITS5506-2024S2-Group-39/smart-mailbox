@@ -1,5 +1,18 @@
 import os
 
+import threading
+import queue
+
+class Event:
+    def __init__(self, type, data=None):
+        self.type = type            
+        self.data = data                    
+
+interrupt = threading.Event() # Event flag to signal threads to stop
+
+message_queue = queue.Queue() #global message queue for consumer and producer communication
+
+
 class Config:
     DEVICE_ID = os.getenv('DEVICE_ID', 'default-device-id')
     BACKEND_API_BASE_URL = os.getenv('BACKEND_API_BASE_URL', 'http://localhost:5000')

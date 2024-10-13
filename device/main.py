@@ -1,42 +1,41 @@
-from camera import setup_camera, is_sensor_triggered, capture_image, send_image_to_backend
-from backend.password_manager import store_password, load_password
-from lock import setup_lock, handle_lock
-from touchpad import setup_touchpad, scan, reset_pin
+import config 
+import camera
+import lock 
+import touchpad
 import RPi.GPIO as GPIO
-import time
+
 
 def main():
     try:
-        # Set up the camera, sensor, solenoid lock, and touchpad
-        setup_camera()
-        setup_lock()
-        setup_touchpad()
+        # Start the camera and touchpad threads
+        touchpad.init()  
+        camera.init() 
+        
+        lock.setup_lock()  # Initialize the lock mechanism
 
-        print("Waiting for mail detection...")
+        # Main event loop
+        while not config.interrupt.is_set():
+            event = config.message_queue.get()  # Block until an event is in the queue
+            print(f"Got event: type {event.type}, data {event.data}")
+            
+            # Process different event types
+            if event.type == "mail": 
+                print(f"Handling mail detection event: {event.data}")
+                camera.send_image_to_backend(event.data)  # Process the captured image
 
-        while True:
-            #Monitor the sensor trigger
-            if is_sensor_triggered():
-                print("Mail detected, capturing image...")
-                capture_image()
-                send_image_to_backend()
-                time.sleep(5)  # Prevent immediate re-triggering
-            
-            # Monitor the touchpad trigger 
-            char = scan()
-            if char == "*":  # Initiates password entry/checking
-                print(f"Key detected: {char}, Checking password...")
-                handle_lock()  # Handle locking and unlocking the mailbox with the touchpad
-            
-            elif char == "*#":  # Initiates the reset PIN process
-                print(f"Key detected: {char},Resetting PIN...")
-                reset_pin()  # Handles the process to reset the PIN
+            elif event.type == "touchpad_pin":
+                print(f"Handling touchpad input event: {event.data}")
+                if lock.handle_lock(event.data):  # Handle the lock
+                    print("Mailbox access granted.")
+                else:
+                    print("Access denied.") 
 
-            
-            time.sleep(5)  # Prevent immediate re-triggering
+            elif event.type == "touchpad_reset":  # Reset PIN request
+                print("Resetting PIN...")
+                touchpad.reset_pin()  # Handles the process to reset the PIN
 
     except KeyboardInterrupt:
-        print("Program interrupted")
+        config.interrupt.set()
 
     finally:
         GPIO.cleanup()
