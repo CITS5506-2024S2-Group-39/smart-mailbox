@@ -2,6 +2,7 @@
 import Button from "@/components/common/Button.vue";
 import Card from "@/components/common/Card.vue";
 import Icon from "@/components/common/Icon.vue";
+import SettingsItem from "@/components/SettingsItem.vue";
 </script>
 
 <template>
@@ -47,35 +48,16 @@ import Icon from "@/components/common/Icon.vue";
 
       <hr class="border-t border-neutral-200" />
 
-      <div class="flex gap-std/2 desktop:flex-row desktop:items-center mobile:flex-col">
-        <div class="desktop:contents mobile:flex mobile:flex-row mobile:items-center mobile:justify-between">
-          <div class="text-sm font-bold desktop:order-1 desktop:w-48">Email Address</div>
-          <Button
-            class="flex flex-row items-center justify-center gap-1 rounded-lg px-4 py-2 text-sm transition-colors hoctive:bg-current/5
-              desktop:order-3"
-          >
-            <Icon type="edit" />
-            Edit
-          </Button>
-        </div>
-        <input class="text-base/loose desktop:order-2 desktop:flex-1" placeholder="e.g. name@example.com" />
-      </div>
+      <SettingsItem
+        title="Email Address"
+        name="notification.email"
+        placeholder="e.g. name@example.com"
+        :spellcheck="false"
+      />
 
       <hr class="border-t border-neutral-200" />
 
-      <div class="flex gap-std/2 desktop:flex-row desktop:items-center mobile:flex-col">
-        <div class="desktop:contents mobile:flex mobile:flex-row mobile:items-center mobile:justify-between">
-          <div class="text-sm font-bold desktop:order-1 desktop:w-48">Phone Number</div>
-          <Button
-            class="flex flex-row items-center justify-center gap-1 rounded-lg px-4 py-2 text-sm transition-colors hoctive:bg-current/5
-              desktop:order-3"
-          >
-            <Icon type="edit" />
-            Edit
-          </Button>
-        </div>
-        <input class="text-base/loose desktop:order-2 desktop:flex-1" placeholder="e.g. 0412345678" />
-      </div>
+      <SettingsItem title="Phone Number" name="notification.phone" placeholder="e.g. 0412345678" :spellcheck="false" />
     </Card>
     <Card title="Prompt Settings">
       <div class="text-sm text-neutral-500">
@@ -84,60 +66,29 @@ import Icon from "@/components/common/Icon.vue";
 
       <hr class="border-t border-neutral-200" />
 
-      <div class="flex gap-std/2 desktop:flex-row desktop:items-center mobile:flex-col">
-        <div class="desktop:contents mobile:flex mobile:flex-row mobile:items-center mobile:justify-between">
-          <div class="text-sm font-bold desktop:order-1 desktop:w-48">Mailbox Address</div>
-          <Button
-            class="flex flex-row items-center justify-center gap-1 rounded-lg px-4 py-2 text-sm transition-colors hoctive:bg-current/5
-              desktop:order-3"
-          >
-            <Icon type="edit" />
-            Edit
-          </Button>
-        </div>
-        <input
-          class="text-base/loose desktop:order-2 desktop:flex-1"
-          placeholder="e.g. 35 Stirling Highway, Perth, WA, 6009"
-        />
-      </div>
+      <SettingsItem
+        title="Mailbox Address"
+        name="prompt.address"
+        placeholder="e.g. 35 Stirling Highway, Perth, WA, 6009"
+      />
 
       <hr class="border-t border-neutral-200" />
 
-      <div class="flex gap-std/2 desktop:flex-row desktop:items-center mobile:flex-col">
-        <div class="desktop:contents mobile:flex mobile:flex-row mobile:items-center mobile:justify-between">
-          <div class="text-sm font-bold desktop:order-1 desktop:w-48">Possible Recipients</div>
-          <Button
-            class="flex flex-row items-center justify-center gap-1 rounded-lg px-4 py-2 text-sm transition-colors hoctive:bg-current/5
-              desktop:order-3"
-          >
-            <Icon type="edit" />
-            Edit
-          </Button>
-        </div>
-        <input
-          class="text-base/loose desktop:order-2 desktop:flex-1"
-          placeholder="e.g. John Doe, Jane Smith, Greenfield Group, Fortune Family Investments"
-        />
-      </div>
+      <SettingsItem
+        title="Possible Recipients"
+        name="prompt.users"
+        placeholder="e.g. John Doe, Jane Smith, Greenfield Group, Fortune Family Investments"
+        :spellcheck="false"
+      />
 
       <hr class="border-t border-neutral-200" />
 
-      <div class="flex gap-std/2 desktop:flex-row desktop:items-center mobile:flex-col">
-        <div class="desktop:contents mobile:flex mobile:flex-row mobile:items-center mobile:justify-between">
-          <div class="text-sm font-bold desktop:order-1 desktop:w-48">Additional Comments</div>
-          <Button
-            class="flex flex-row items-center justify-center gap-1 rounded-lg px-4 py-2 text-sm transition-colors hoctive:bg-current/5
-              desktop:order-3"
-          >
-            <Icon type="edit" />
-            Edit
-          </Button>
-        </div>
-        <input
-          class="text-base/loose desktop:order-2 desktop:flex-1"
-          placeholder="e.g. I have subscribed to a newspaper that is usually delivered on Mondays"
-        />
-      </div>
+      <SettingsItem
+        title="Additional Comments"
+        name="prompt.comments"
+        placeholder="e.g. I have subscribed to a newspaper that is usually delivered on Mondays"
+        :rows="5"
+      />
     </Card>
   </div>
 </template>

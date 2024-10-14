@@ -9,7 +9,7 @@ import id from "@/utils/object-id";
   <aside
     class="pointer-events-none fixed right-0 top-0 z-30 flex max-h-screen flex-col pt-header-height desktop:w-112 mobile:w-screen
       mobile:pb-navbar-height"
-    v-if="toasts.length"
+    v-show="toasts.length"
   >
     <List class="pointer-events-auto flex flex-col gap-std overflow-y-auto p-std">
       <div

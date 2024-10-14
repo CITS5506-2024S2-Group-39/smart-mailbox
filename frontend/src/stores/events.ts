@@ -10,12 +10,14 @@ export enum EventType {
   MailboxSecurityAlert = "Security Alert",
 }
 
-interface EventData {
+export interface EventData {
   summary: string;
   // Different event type will have different custom fields here
 }
 
-interface MailEventData extends EventData {
+export const MailTypes = ["Official", "Personal", "Commercial", "Advertising", "Parcel", "Unknown"] as const;
+
+export interface MailEventData extends EventData {
   recipient_name: string | null;
   recipient_address: {
     street: string | null;

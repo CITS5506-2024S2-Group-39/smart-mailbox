@@ -8,13 +8,17 @@ events_bp = Blueprint('events', __name__)
 @events_bp.route('/api/events', methods=['GET'])
 def get_events():
     events = get_from_db("SELECT * FROM events")
+    for event in events:
+        event['data'] = json.loads(event['data'].replace("'", '"'))
     return jsonify(events)
 
 # Endpoint to get or edit a specific event by ID
 @events_bp.route('/api/event/<int:event_id>', methods=['GET', 'POST'])
 def event_detail(event_id):
     if request.method == 'GET':
-        event = get_from_db("SELECT * FROM events WHERE id=?", (event_id,))
+        events = get_from_db("SELECT * FROM events WHERE id=?", (event_id,))
+        event = events[0]
+        event['data'] = json.loads(event['data'].replace("'", '"'))
         return jsonify(event)
     elif request.method == 'POST':
         data = request.get_json()

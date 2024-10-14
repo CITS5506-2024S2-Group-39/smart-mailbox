@@ -17,5 +17,5 @@ def update_settings():
     data = request.get_json()
     for setting in data:
         save_to_db("INSERT OR REPLACE INTO settings (key, value) VALUES (?, ?)",
-                   (setting['key'], json.dumps(setting['value'])))
+                   (setting['key'], setting['value']))
     return jsonify({"message": "Settings updated successfully"})

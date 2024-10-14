@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import AspectRatio from "@/components/common/AspectRatio.vue";
+import Button from "@/components/common/Button.vue";
 import Card from "@/components/common/Card.vue";
 import Icon from "@/components/common/Icon.vue";
+import MailboxUnlockDialog from "@/components/MailboxUnlockDialog.vue";
 import NumberDisplay from "@/components/NumberDisplay.vue";
+import deviceStatus from "@/stores/device-status";
 import events, { EventType } from "@/stores/events";
-import { computed } from "vue";
+import now from "@/stores/now";
+import { computed, ref } from "vue";
 
 const mailsSinceLastOpen = computed(() => {
   let count = 0;
@@ -27,6 +31,45 @@ const mailsSinceTimeBegins = computed(() => {
   }
   return count;
 });
+
+const lastMailEvent = computed(() => {
+  for (let event of events.value) {
+    if (event.type === EventType.MailboxIncomingMail) {
+      return event;
+    }
+  }
+
+  return null;
+});
+
+function prettyPrintTimeInterval(startDate: Date, endDate: Date) {
+  const diffInMs: number = endDate.getTime() - startDate.getTime(); // Difference in milliseconds
+
+  // Define time intervals in milliseconds
+  const msInSecond = 1000;
+  const msInMinute = msInSecond * 60;
+  const msInHour = msInMinute * 60;
+  const msInDay = msInHour * 24;
+
+  // Calculate each time component
+  const days = Math.floor(diffInMs / msInDay);
+  const hours = Math.floor((diffInMs % msInDay) / msInHour);
+  const minutes = Math.floor((diffInMs % msInHour) / msInMinute);
+  const seconds = Math.floor((diffInMs % msInMinute) / msInSecond);
+
+  // Create an array to hold the components
+  const timeComponents = [];
+
+  if (days > 0) timeComponents.push(`${days} day${days > 1 ? "s" : ""}`);
+  if (hours > 0) timeComponents.push(`${hours} hour${hours > 1 ? "s" : ""}`);
+  if (minutes > 0) timeComponents.push(`${minutes} minute${minutes > 1 ? "s" : ""}`);
+  if (seconds > 0) timeComponents.push(`${seconds} second${seconds > 1 ? "s" : ""}`);
+
+  // Join components with commas
+  return timeComponents.length > 0 ? timeComponents.join(", ") : "0 seconds";
+}
+
+const lockdialog = ref<typeof MailboxUnlockDialog>();
 </script>
 
 <template>
@@ -47,43 +90,49 @@ const mailsSinceTimeBegins = computed(() => {
         </div>
       </div>
     </Card>
-    <Card class="desktop:order-3 desktop:col-span-1" title="Quick Actions">
-      <div class="flex desktop:flex-col desktop:gap-4 mobile:flex-row mobile:gap-4">
-        <div class="flex basis-1/2 desktop:flex-row desktop:gap-2 mobile:flex-col-reverse mobile:gap-4">
-          <Icon class="text-2xl/none" type="lock" />
+    <Card class="desktop:order-3 desktop:col-span-2" title="Quick Actions">
+      <div class="flex flex-row gap-std">
+        <Button class="flex basis-1/2 flex-row items-center gap-2" @click="lockdialog!.show()">
+          <Icon class="desktop:text-6 mobile:text-4" type="lock" />
           <span>Unlock MailBox</span>
-        </div>
-        <div class="flex basis-1/2 desktop:flex-row desktop:gap-2 mobile:flex-col-reverse mobile:gap-4">
-          <Icon class="text-2xl/none" type="password" />
+          <MailboxUnlockDialog ref="lockdialog" />
+        </Button>
+        <Button class="flex basis-1/2 flex-row items-center gap-2">
+          <Icon class="desktop:text-6 mobile:text-4" type="password" />
           <span>Change Password</span>
+        </Button>
+      </div>
+    </Card>
+    <Card class="desktop:order-4 desktop:col-span-2" title="Device Metric">
+      <div class="flex flex-col gap-std/2">
+        <div class="flex flex-row gap-std">
+          <span class="w-24 flex-none text-sm font-bold">Status</span>
+          <span class="break-none flex-1">
+            {{ deviceStatus.online ? "Online" : "Offline" }}
+          </span>
+        </div>
+        <div class="flex flex-row gap-std">
+          <span class="w-24 flex-none text-sm font-bold">Uptime</span>
+          <span class="break-none flex-1 text-nowrap">
+            {{ deviceStatus.online ? prettyPrintTimeInterval(deviceStatus.since, now) : "N/A" }}
+          </span>
+        </div>
+        <div class="flex flex-row gap-std">
+          <span class="w-24 flex-none text-sm font-bold">Last Seen</span>
+          <span class="break-none flex-1 text-nowrap">
+            {{ deviceStatus.lastseen.getTime() ? deviceStatus.lastseen.toLocaleString() : "Never" }}
+          </span>
         </div>
       </div>
     </Card>
-    <Card class="desktop:order-4 desktop:col-span-1" title="Device Metric">
-      <div class="desktop:relative desktop:size-full desktop:overflow-auto">
-        <div class="desktop:absolute desktop:inset-0">
-          <div class="flex flex-col desktop:gap-4 mobile:gap-4">
-            <div class="flex flex-row desktop:gap-4 mobile:gap-4">
-              <span class="flex-none basis-1/3 font-bold">Status</span>
-              <span class="break-none flex-1 basis-2/3">Online</span>
-            </div>
-            <div class="flex flex-row desktop:gap-4 mobile:gap-4">
-              <span class="flex-none basis-1/3 font-bold">Uptime</span>
-              <span class="break-none flex-1 basis-2/3 text-nowrap">132 Day 8 Hours</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </Card>
-    <Card class="desktop:order-2 desktop:col-span-2 desktop:row-span-2" title="Latest Mail">
+    <Card class="desktop:order-2 desktop:col-span-2 desktop:row-span-3" title="Latest Mail" v-if="lastMailEvent">
+      <template v-slot:additional>
+        <div class="text-sm text-neutral-500" v-text="lastMailEvent.time.toLocaleString()"></div>
+      </template>
       <div class="desktop:relative desktop:size-full desktop:overflow-auto">
         <div class="flex flex-col gap-4 desktop:absolute desktop:inset-0">
           <AspectRatio ratio=" 4608 / 2592" class="bg-blue-100"></AspectRatio>
-          <div>
-            The mail cover shows the recipient, JOHN DOE, at 99 BAKER STREET, LONDON UK WC2N 5DU. The package is sent
-            from PO BOX 789, MANCHESTER UK M3 1HP, and includes prepaid postage and tracking (GHI 234-5), indicating it
-            is a business contract.
-          </div>
+          <div v-text="lastMailEvent.data.summary"></div>
         </div>
       </div>
     </Card>
