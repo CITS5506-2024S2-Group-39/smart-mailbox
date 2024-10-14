@@ -7,6 +7,7 @@ import RPi.GPIO as GPIO
 
 def main():
     try:
+        GPIO.setmode(GPIO.BCM)
         # Start the camera and touchpad threads
         touchpad.init()  
         camera.init() 

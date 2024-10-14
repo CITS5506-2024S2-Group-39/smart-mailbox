@@ -2,7 +2,7 @@ import threading
 import RPi.GPIO as GPIO
 import time
 import config 
-import backend.password_manager 
+import password_manager 
 
 # Define GPIO pin mappings 
 P1 = 4
@@ -58,7 +58,6 @@ def scan():
 # Touchpad setup function
 def setup_touchpad():
     GPIO.cleanup()
-    GPIO.setmode(GPIO.BCM)
     GPIO.setwarnings(False)
 
     GPIO.setup(P1, GPIO.OUT)
@@ -82,13 +81,8 @@ def daemon():
         char = scan()
         if char:
             if char == "#":  # Input '#' to finish entering the password
-                if reset_mode:
-                    event = config.Event(event_type="touchpad_reset", data=password)
-                    config.message_queue.put(event)  # Trigger a PIN reset event
-                    reset_mode = False  # Exit reset mode after submission
-                else:
-                    event = config.Event(event_type="touchpad_pin", data=password)
-                    config.message_queue.put(event)  # Submit the entered password
+                event = config.Event("touchpad_pin", data=password)
+                config.message_queue.put(event)  # Submit the entered password
                 password = ""  # Reset the password after submission
 
             elif char.isdigit():  # Only accept digits as password characters
@@ -96,10 +90,8 @@ def daemon():
                 print(f"Password so far: {password}")  # Debugging step to show progress
 
             elif char == "*":  # Trigger reset process if * is pressed
+                password = ""
                 next_char = scan()  # Check if the next key press is '#'
-                if next_char == "#":
-                    reset_mode = True  # Enable reset mode
-                    print("Reset PIN requested")
             
         time.sleep(0.1)
     print("Touchpad monitoring thread stopped")
@@ -121,14 +113,14 @@ def set_new_pin():
     confirm_password = confirm_password_event.data
 
     if new_password == confirm_password:
-        backend.password_manager.store_password(new_password)  # Store the new PIN in the db
+        password_manager.store_password(new_password)  # Store the new PIN in the db
         print("New PIN set successfully.")
     else:
         print("PINs did not match. Please try again.")
 
 # Function to reset the PIN
 def reset_pin():
-    stored_password = backend.password_manager.load_password()
+    stored_password = password_manager.load_password()
     if stored_password is None:  #if password file is empty
         print("No PIN found. Please set a new one.")
         set_new_pin()
@@ -138,7 +130,7 @@ def reset_pin():
     print("Enter your current PIN to reset:")
     current_pin_event = config.message_queue.get()  # Wait for current PIN input
 
-    if backend.password_manager.verify_password(current_pin_event.data):
+    if password_manager.verify_password(current_pin_event.data):
         print("PIN verified. Proceeding to set a new PIN.")
         set_new_pin()  # Call to reset the PIN
     else:
