@@ -22,7 +22,6 @@ const inputbox = ref<HTMLTextAreaElement>();
 const editing = ref<boolean>(false);
 
 const startEdit = () => {
-  console.log("start edit");
   editing.value = true;
 };
 

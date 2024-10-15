@@ -40,9 +40,9 @@ const config: Config = {
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
     extend: {
-      fontSize: generateSpacing(0, 128, 0.5),
+      fontSize: generateSpacing(0, 256, 0.5),
       spacing: {
-        ...generateSpacing(0, 128, 0.5),
+        ...generateSpacing(0, 256, 0.5),
         "navbar-width": "6rem", // Width for desktop view
         "navbar-height": "4rem", // Height for mobile view
         "header-height": "4rem", // Standard header height

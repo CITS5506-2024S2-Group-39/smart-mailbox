@@ -1,7 +1,6 @@
 import sqlite3
 import os
-
-DATABASE = 'mailbox.db'
+from config import DATABASE
 
 # Function to initialize the database
 def initialize_db():

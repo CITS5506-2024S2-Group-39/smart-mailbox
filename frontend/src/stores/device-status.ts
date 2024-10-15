@@ -1,4 +1,4 @@
-import { requestAPI } from "@/api";
+import { getAPI } from "@/api";
 import { setIntervalWithCancel } from "@/utils/timeout";
 import { shallowReactive } from "vue";
 
@@ -19,7 +19,7 @@ export default deviceStatus;
 
 // Handler to load latest events list from backend
 const update = () => {
-  requestAPI("/api/devstat", undefined, (data: DeviceStatus) => {
+  getAPI("/api/devstat", (data: DeviceStatus) => {
     // Convert JSON format to Date object
     deviceStatus.online = data.online;
     deviceStatus.since = new Date(data.since);

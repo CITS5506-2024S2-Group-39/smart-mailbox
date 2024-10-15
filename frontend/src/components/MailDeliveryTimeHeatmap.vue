@@ -75,7 +75,7 @@ const dataset = computed(() => {
   // Add a counter here to count the number of data points
   let total = 0;
 
-  for (const { type, time } of events.value) {
+  for (const { type, time } of events) {
     if (type !== EventType.MailboxIncomingMail) {
       continue;
     }

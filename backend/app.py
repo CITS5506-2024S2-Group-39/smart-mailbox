@@ -1,4 +1,14 @@
-# app.py
+########################################################################
+
+# Enable importing `shared` from the parent directory
+import sys, os
+
+root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.append(root_dir)
+
+########################################################################
+
+
 from flask import Flask, jsonify
 
 # Import the blueprints
@@ -11,7 +21,7 @@ app = Flask(__name__)
 # Global error handler
 @app.errorhandler(Exception)
 def handle_exception(e):
-    response = { "error": f"Backend Error: {e}" }
+    response = { "error": str(e) }
     return jsonify(response), 500
 
 # Register the blueprints

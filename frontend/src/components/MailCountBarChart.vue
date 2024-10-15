@@ -55,7 +55,7 @@ const labels: string[] = [];
 const data: number[] = [];
 
 const updateDataset = () => {
-  const [days, counts] = statisticForMonth(events.value, month.value);
+  const [days, counts] = statisticForMonth(events, month.value);
 
   // Do not update the dataset if it is unchanged.
   // This avoids unnecessary animations when the data remains the same.

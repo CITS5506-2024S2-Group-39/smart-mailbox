@@ -3,8 +3,9 @@ import AspectRatio from "@/components/common/AspectRatio.vue";
 import Button from "@/components/common/Button.vue";
 import Card from "@/components/common/Card.vue";
 import Icon from "@/components/common/Icon.vue";
-import MailboxUnlockDialog from "@/components/MailboxUnlockDialog.vue";
+import LockControlDialog from "@/components/LockControlDialog.vue";
 import NumberDisplay from "@/components/NumberDisplay.vue";
+import PasswordUpdateDialog from "@/components/PasswordUpdateDialog.vue";
 import deviceStatus from "@/stores/device-status";
 import events, { EventType } from "@/stores/events";
 import now from "@/stores/now";
@@ -12,7 +13,7 @@ import { computed, ref } from "vue";
 
 const mailsSinceLastOpen = computed(() => {
   let count = 0;
-  for (let event of events.value) {
+  for (let event of events) {
     if (event.type === EventType.MailboxIncomingMail) {
       ++count;
     } else if (event.type === EventType.MailboxLocked) {
@@ -24,7 +25,7 @@ const mailsSinceLastOpen = computed(() => {
 
 const mailsSinceTimeBegins = computed(() => {
   let count = 0;
-  for (let event of events.value) {
+  for (let event of events) {
     if (event.type === EventType.MailboxIncomingMail) {
       ++count;
     }
@@ -33,7 +34,7 @@ const mailsSinceTimeBegins = computed(() => {
 });
 
 const lastMailEvent = computed(() => {
-  for (let event of events.value) {
+  for (let event of events) {
     if (event.type === EventType.MailboxIncomingMail) {
       return event;
     }
@@ -69,7 +70,8 @@ function prettyPrintTimeInterval(startDate: Date, endDate: Date) {
   return timeComponents.length > 0 ? timeComponents.join(", ") : "0 seconds";
 }
 
-const lockdialog = ref<typeof MailboxUnlockDialog>();
+const lockdialog = ref<typeof LockControlDialog>();
+const passworddialog = ref<typeof PasswordUpdateDialog>();
 </script>
 
 <template>
@@ -94,12 +96,13 @@ const lockdialog = ref<typeof MailboxUnlockDialog>();
       <div class="flex flex-row gap-std">
         <Button class="flex basis-1/2 flex-row items-center gap-2" @click="lockdialog!.show()">
           <Icon class="desktop:text-6 mobile:text-4" type="lock" />
-          <span>Unlock MailBox</span>
-          <MailboxUnlockDialog ref="lockdialog" />
+          <span>Lock Control</span>
+          <LockControlDialog ref="lockdialog" />
         </Button>
-        <Button class="flex basis-1/2 flex-row items-center gap-2">
+        <Button class="flex basis-1/2 flex-row items-center gap-2" @click="passworddialog!.show()">
           <Icon class="desktop:text-6 mobile:text-4" type="password" />
           <span>Change Password</span>
+          <PasswordUpdateDialog ref="passworddialog" />
         </Button>
       </div>
     </Card>
@@ -130,8 +133,8 @@ const lockdialog = ref<typeof MailboxUnlockDialog>();
         <div class="text-sm text-neutral-500" v-text="lastMailEvent.time.toLocaleString()"></div>
       </template>
       <div class="desktop:relative desktop:size-full desktop:overflow-auto">
-        <div class="flex flex-col gap-4 desktop:absolute desktop:inset-0">
-          <AspectRatio ratio=" 4608 / 2592" class="bg-blue-100"></AspectRatio>
+        <div class="flex flex-col gap-std desktop:absolute desktop:inset-0">
+          <img :src="'/api/images/' + lastMailEvent.data.image" class="aspect-[4/3] rounded-lg" />
           <div v-text="lastMailEvent.data.summary"></div>
         </div>
       </div>

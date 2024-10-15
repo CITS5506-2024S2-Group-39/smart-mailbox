@@ -2,7 +2,7 @@
 import Button from "@/components/common/Button.vue";
 import Card from "@/components/common/Card.vue";
 import Icon from "@/components/common/Icon.vue";
-import { requestAPI } from "@/api";
+import { postAPI } from "@/api";
 import deviceStatus from "@/stores/device-status";
 import { showSuccess } from "@/stores/toast";
 import { shallowRef } from "vue";
@@ -22,45 +22,32 @@ defineExpose({
   close: hideDialog,
 });
 
-const setLockState = (lock: boolean) => {
-  requestAPI(
-    "/api/mailbox/lock",
-    {
-      method: "POST",
-      body: JSON.stringify({ action: lock ? "lock" : "unlock" }),
-      headers: { "Content-Type": "application/json" },
-    },
-    () => {
-      showSuccess("Operation issued successfully");
-    },
-  );
+const setLockState = (locked: boolean) => {
+  postAPI("/api/mailbox/lock", { locked: locked }, () => {
+    showSuccess("Operation issued successfully");
+    hideDialog();
+  });
 };
 </script>
 
 <template>
-  <div v-if="show" class="fixed inset-0 z-50 grid place-items-center bg-neutral-950/50" @click.prevent.stop>
-    <Card title="Confirm Operation">
+  <div v-if="show" class="fixed inset-0 z-30 grid place-items-center bg-neutral-950/50 p-std" @click.prevent.stop>
+    <Card title="Confirm Operation" class="desktop:w-136 mobile:w-full">
       <template v-if="!deviceStatus.online">
         <div>
           <div>
+            <span class="font-bold">NOTE:</span>
             Mailbox is
             <span class="font-bold">offline</span>
             currently.
           </div>
-          <div>Though you can still schedule an operation.</div>
-          <div>The opeartion will be executed once the mailbox is online again.</div>
+          <div>The opeartion will be executed once the mailbox is online.</div>
         </div>
         <div class="flex flex-row gap-std/2">
-          <Button
-            class="rounded-lg bg-neutral-900 p-3 text-sm/none text-white"
-            @click="setLockState(true), hideDialog()"
-          >
+          <Button class="rounded-lg bg-neutral-900 p-3 text-sm/none text-white" @click="setLockState(true)">
             Lock
           </Button>
-          <Button
-            class="rounded-lg bg-neutral-900 p-3 text-sm/none text-white"
-            @click="setLockState(false), hideDialog()"
-          >
+          <Button class="rounded-lg bg-neutral-900 p-3 text-sm/none text-white" @click="setLockState(false)">
             Unlock
           </Button>
           <div class="flex-1"></div>
@@ -85,7 +72,7 @@ const setLockState = (lock: boolean) => {
         <div class="flex flex-row gap-std/2">
           <Button
             class="rounded-lg bg-neutral-900 p-3 text-sm/none text-white"
-            @click="setLockState(!deviceStatus.locked), hideDialog()"
+            @click="setLockState(!deviceStatus.locked)"
           >
             Confirm
           </Button>

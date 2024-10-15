@@ -7,7 +7,7 @@ import id from "@/utils/object-id";
 
 <template>
   <aside
-    class="pointer-events-none fixed right-0 top-0 z-30 flex max-h-screen flex-col pt-header-height desktop:w-112 mobile:w-screen
+    class="pointer-events-none fixed right-0 top-0 z-50 flex max-h-screen flex-col pt-header-height desktop:w-112 mobile:w-screen
       mobile:pb-navbar-height"
     v-show="toasts.length"
   >

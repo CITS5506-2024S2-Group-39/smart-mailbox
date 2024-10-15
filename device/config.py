@@ -1,39 +1,31 @@
-import os
-
-import threading
-import queue
-
-class Event:
-    def __init__(self, type, data=None):
-        self.type = type            
-        self.data = data                    
-
-interrupt = threading.Event() # Event flag to signal threads to stop
-
-message_queue = queue.Queue() #global message queue for consumer and producer communication
+class HeartbeatConfig:
+    INTERVAL = 1
+    URL = "http://localhost:5000/api/mailbox/heartbeat"
 
 
-class Config:
-    DEVICE_ID = os.getenv('DEVICE_ID', 'default-device-id')
-    BACKEND_API_BASE_URL = os.getenv('BACKEND_API_BASE_URL', 'http://localhost:5000')
+class EventReportConfig:
+    URL = "http://localhost:5000/api/event"
+    RETRY_INTERVAL = 5
+    MAX_RETRY = 100
 
-    API_ENDPOINTS = {
-        'register_device': f"{BACKEND_API_BASE_URL}/register-device",
-        'mail_event': f"{BACKEND_API_BASE_URL}/mail-event",
-        'unlock_mailbox': f"{BACKEND_API_BASE_URL}/unlock-mailbox",
-        'update_password': f"{BACKEND_API_BASE_URL}/update-password",
-        'device_status': f"{BACKEND_API_BASE_URL}/device-status",
-    }
 
-    IMAGE_STORAGE_PATH = os.getenv('IMAGE_STORAGE_PATH', './images/')
+class LockConfig:
+    RELAY_PIN = 26  # Pin of the relay to control the solenoid lock
+    PASSWORD_FILE = "password.txt"  # Where the password will be stored
+    DEFAULT_PASSWORD = "55062024"  # Default password if PASSWORD_FILE cannot be read
 
-    SENSOR_PIN = 25
-    RELAY_PIN = 26 
-    LED_PIN = 23
 
-    CAMERA_RESOLUTION = (1024, 768)
+class CameraConfig:
+    SENSOR_PIN = 25  # Pin connected to the break beam sensor
+    LED_PIN = 23  # Pin connected to the LED light
 
-    REQUEST_TIMEOUT = 10
 
-    LOG_FILE_PATH = os.getenv('LOG_FILE_PATH', './logs/device.log')
-    LOG_LEVEL = 'INFO'
+# Define GPIO pin mappings for the numpad
+class NumPadConfig:
+    COL1 = 4
+    COL2 = 3
+    COL3 = 2
+    ROW1 = 18
+    ROW2 = 17
+    ROW3 = 15
+    ROW4 = 14

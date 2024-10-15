@@ -6,9 +6,8 @@ import { computed } from "vue";
 
 // Mailbox events grouped by date
 const groups = computed(() => {
-  const { value } = events;
   const map: Record<string, MailboxEvent[]> = {};
-  for (const event of value) {
+  for (const event of events) {
     const datetime = event.time as Date;
     const key = datetime.toLocaleDateString();
     let group = map[key];
