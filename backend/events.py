@@ -26,9 +26,10 @@ def get_events():
 @events_bp.route("/api/events", methods=["POST"])
 def get_events_delta():
     data = request.get_json()
-    id = data['id']
+    id = data["id"]
     events = get_events_after_id_from_db(id)
     return jsonify(events)
+
 
 # Endpoint to get a specific event by ID
 @events_bp.route("/api/event/<int:id>", methods=["GET"])

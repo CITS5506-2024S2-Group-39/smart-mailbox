@@ -7,30 +7,26 @@ from config import EmailConfig
 from shared import ISODateTime
 
 
-def send_email_notification( type: str, time: str, data: dict, id: int):
+def send_email_notification(type: str, time: str, data: dict, id: int):
     receipient = get_setting_item("notification.email", None)
     if not receipient:
         return
 
     time = ISODateTime.from_string(time)
     time = time.strftime("%B %d, %Y %H:%M:%S")
-    subject =  f"[Smart Mailbox] {type}" 
+    subject = f"[Smart Mailbox] {type}"
 
-    content = f"""
-<p><strong>Summary:</strong> {data['summary']}</p>
-<p><strong>Time:</strong> {time}</p>
-<p>For details, please visit the <a href="http://{EmailConfig.HOST_NAME}/event/{id}">dashboard</a>.</p>
-"""
+    content = [
+        f"""<p><strong>Summary:</strong> {data['summary']}</p>""",
+        f"""<p><strong>Time:</strong> {time}</p>""",
+        f"""<p>For details, please visit the <a href="http://{EmailConfig.HOST_NAME}/event/{id}">dashboard</a>.</p>""",
+    ]
 
     if "image" in data:
-        content = (
-            f"""
-<img src="http://{EmailConfig.HOST_NAME}/api/images/{data['image']}" />
-        """
-            + content
-        )
+        line = f"""<img src="http://{EmailConfig.HOST_NAME}/api/images/{data['image']}" />"""
+        content.insert(0, line)
 
-    msg = MIMEText(content, "html")
+    msg = MIMEText("\n".join(content), "html")
     msg["From"] = EmailConfig.EMAIL_USER
     msg["To"] = receipient
     msg["Subject"] = subject

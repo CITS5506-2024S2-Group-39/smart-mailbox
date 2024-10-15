@@ -5,6 +5,7 @@ from shared import ISODateTime
 # Define a Blueprint for device management related endpoints
 device_management_bp = Blueprint("device_management", __name__)
 
+
 class DeviceManagementContext:
     def __init__(self):
         # Device lock status, reported by the device itself
@@ -29,8 +30,10 @@ class DeviceManagementContext:
         self.expect = {}
         return expect
 
+
 # Context object for managing the state of a single device
 context = DeviceManagementContext()
+
 
 # Endpoint for the device to report its status and receive queued commands
 @device_management_bp.route("/api/mailbox/heartbeat", methods=["POST"])
@@ -50,6 +53,7 @@ def get_commands():
     context.expect = {}
     return jsonify(expect)
 
+
 # Endpoint to lock or unlock the mailbox
 @device_management_bp.route("/api/mailbox/lock", methods=["POST"])
 def lock_mailbox():
@@ -60,13 +64,14 @@ def lock_mailbox():
     context.expect["locked"] = locked
     return jsonify({})
 
+
 # Endpoint to reset the device password
 @device_management_bp.route("/api/mailbox/reset", methods=["POST"])
 def change_password():
     # Parse the new password from the request
     data = request.get_json()
     password = data["password"]
-    
+
     # Validate that the password is a string of digits
     if not isinstance(password, str):
         raise Exception("Password must be a string")
@@ -77,10 +82,11 @@ def change_password():
     for digit in password:
         if digit not in "0123456789":
             raise Exception("Password must contain only digits 0-9")
-    
+
     # Queue the password change command for the device
     context.expect["password"] = password
     return jsonify({})
+
 
 # Endpoint for the frontend to check the current status of the device
 @device_management_bp.route("/api/devstat", methods=["GET"])
