@@ -89,7 +89,7 @@ def change_password():
 
 
 # Endpoint for the frontend to check the current status of the device
-@device_management_bp.route("/api/devstat", methods=["GET"])
+@device_management_bp.route("/api/devstat", methods=["POST"])
 def get_device_status():
     # Return the online status, connection timestamps, and lock status
     return jsonify(
