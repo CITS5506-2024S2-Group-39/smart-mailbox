@@ -108,7 +108,8 @@ def analyze_mail_cover(prompt: str, image: str) -> dict:
     normalized = {}
     normalized["summary"] = json.get("summary")
     normalized["recipient_name"] = json.get("recipient_name")
-    recipient_address = json.get("recipient_address", {})
+    recipient_address = json.get("recipient_address")
+    if not recipient_address: recipient_address = {}
     normalized["recipient_address"] = {
         "street": recipient_address.get("street"),
         "city": recipient_address.get("city"),
@@ -116,7 +117,8 @@ def analyze_mail_cover(prompt: str, image: str) -> dict:
         "postal_code": recipient_address.get("postal_code"),
     }
     normalized["sender_name"] = json.get("sender_name")
-    sender_address = json.get("sender_address", {})
+    sender_address = json.get("sender_address")
+    if not sender_address: sender_address = {}
     normalized["sender_address"] = {
         "street": sender_address.get("street"),
         "city": sender_address.get("city"),
