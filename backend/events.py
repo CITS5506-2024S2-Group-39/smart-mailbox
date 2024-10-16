@@ -91,5 +91,9 @@ def add_event():
     else:
         (type, time, data) = process_email_event(type, time, data)
     id = save_event_to_db(type, time, data)
-    send_email_notification(type, time, data, id)
+    try:
+        send_email_notification(type, time, data, id)
+    except Exception as e:
+        print("Failed to send notification", e)
+        pass
     return jsonify({})
