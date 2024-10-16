@@ -25,7 +25,7 @@ last = None
 
 
 # Function to scan the keypad for key presses
-def scan(interrupt, message_queue):
+def scan():
     global last
     keys = []
 
@@ -114,3 +114,5 @@ def init(interrupt, message_queue):
     # Start the numpad monitoring thread
     thread = threading.Thread(target=daemon, args=(interrupt, message_queue))
     thread.start()
+    return thread
+

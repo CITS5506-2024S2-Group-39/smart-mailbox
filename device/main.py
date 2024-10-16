@@ -21,7 +21,7 @@ from shared import EventType, ISODateTime
 
 
 def process_event(type, data):
-    print(f"Got event: type {type}, data {data}")
+    print(f"Got event: type {type}")
 
     # This type can only come from device
     # data is the a base64 string containing image data
@@ -43,7 +43,7 @@ def process_event(type, data):
                 EventType.MailboxUnlocked,
                 "You have unlocked your mailbox via numpad input.",
             )
-        elif lock.need_raise_alert():
+        elif lock.need_raise_alert(3):
             return (
                 EventType.MailboxSecurityAlert,
                 "Multiple consecutive failed attempts to unlock the mailbox via numpad detected, which may indicate attempt of unauthorized access.",
@@ -52,7 +52,7 @@ def process_event(type, data):
     # This type can only come from heartbeat
     # data is the new password
     if type == EventType.MailboxPasswordChanged:
-        lock.reset_password(data)
+        lock.set_password(data)
         return (
             EventType.MailboxPasswordChanged,
             "You have changed your mailbox password via the dashboard.",
@@ -68,7 +68,7 @@ def process_event(type, data):
     if type == EventType.MailboxLocked:
         lock.lock_close()
         return (
-            EventType.MailboxUnlocked,
+            EventType.MailboxLocked,
             "You have locked your mailbox via the dashboard.",
         )
 
@@ -87,10 +87,10 @@ def main():
 
         # Init modules
         lock.init()
-        reporting.init(interrupt, report_queue)
-        numpad.init(interrupt, message_queue)
-        camera.init(interrupt, message_queue)
-        heartbeat.init(interrupt, message_queue)
+        reporting_thread = reporting.init(interrupt, report_queue)
+        numpad_thread = numpad.init(interrupt, message_queue)
+        camera_thread = camera.init(interrupt, message_queue)
+        heartbeat_thread = heartbeat.init(interrupt, message_queue)
 
         # Main event loop
         while not interrupt.is_set():
@@ -114,7 +114,13 @@ def main():
         interrupt.set()
 
     finally:
+        print(f"Waiting for child to exit...")
+        reporting_thread.join()
+        numpad_thread.join()
+        camera_thread.join()
+        heartbeat_thread.join()
         GPIO.cleanup()
+        print(f"Goodbye!")
 
 
 if __name__ == "__main__":

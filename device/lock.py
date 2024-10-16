@@ -54,11 +54,13 @@ def need_raise_alert(threshold):
 
 # Closes the solenoid lock
 def lock_close():
+    print("Closing lock")
     GPIO.output(LockConfig.RELAY_PIN, GPIO.HIGH)
 
 
 # Opens the solenoid lock
 def lock_open():
+    print("Opening lock")
     GPIO.output(LockConfig.RELAY_PIN, GPIO.LOW)
 
 

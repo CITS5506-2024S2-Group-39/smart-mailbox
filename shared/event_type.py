@@ -6,4 +6,4 @@ class EventType:
     MailboxIncomingMail = "New Mail"
     MailboxSecurityAlert = "Security Alert"
     # Currently, Only used by device for internal processing
-    MailboxPasswordInput = "Password Input"
+    MailboxNumPadInput = "Password Input"

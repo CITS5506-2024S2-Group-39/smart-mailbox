@@ -1,10 +1,10 @@
 class HeartbeatConfig:
     INTERVAL = 1
-    URL = "http://localhost:5000/api/mailbox/heartbeat"
+    URL = "http://192.168.43.157:5173/api/mailbox/heartbeat"
 
 
 class EventReportConfig:
-    URL = "http://localhost:5000/api/event"
+    URL = "http://192.168.43.157:5173/api/event"
     RETRY_INTERVAL = 5
     MAX_RETRY = 100
 

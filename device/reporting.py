@@ -34,3 +34,4 @@ def init(interrupt, report_queue):
     # Start the event reporting thread
     thread = threading.Thread(target=worker, args=(interrupt, report_queue))
     thread.start()
+    return thread

@@ -28,6 +28,7 @@ def daemon(interrupt, message_queue):
         # Wait until the mail has fully entered the mailbox
         while GPIO.input(CameraConfig.SENSOR_PIN) == GPIO.LOW:
             time.sleep(1)
+        time.sleep(2)
 
         # Capture an image of the mail
         print("Capturing image...")
@@ -56,3 +57,4 @@ def init(interrupt, message_queue):
     # Start the mailbox monitoring thread
     thread = threading.Thread(target=daemon, args=(interrupt, message_queue))
     thread.start()
+    return thread

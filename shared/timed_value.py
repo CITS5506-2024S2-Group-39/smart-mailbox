@@ -14,7 +14,7 @@ class TimedValue:
         diff = now - self.updated
         interval = diff.total_seconds()
         if interval < self.expiration:
-            return (value, False)
+            return (self.value, False)
         else:
             return (self.default, True)
 
