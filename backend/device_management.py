@@ -21,8 +21,8 @@ class DeviceManagementContext:
         # Determine if the device is considered online based on the last seen time
         now = ISODateTime.now()
         lastseen = self.lastseen
-        # If the device has not been seen for over 60 seconds, it's considered offline
-        return (now - lastseen).total_seconds() < 60
+        # If the device has not reported for some time, it's considered offline
+        return (now - lastseen).total_seconds() < 10
 
     def get_expected_state(self):
         # Retrieve and clear the queued commands for the device
