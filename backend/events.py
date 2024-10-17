@@ -1,11 +1,13 @@
 from flask import Blueprint, request, jsonify, send_from_directory
 from base64 import b64decode
 from hashlib import sha256
+from os import makedirs
 from os.path import join
+import traceback
 
 from utils import get_events_from_db, get_events_after_id_from_db
 from utils import get_event_from_db, update_event_to_db
-from config import IMAGE_FOLDER
+from config import MailEventConfig
 from utils import save_event_to_db, get_setting_item
 from gpt import make_prompt, analyze_mail_cover
 from notification import send_email_notification
@@ -49,7 +51,7 @@ def update_event(id: int):
 # Serve the uploaded files
 @events_bp.route("/api/images/<filename>")
 def uploaded_file(filename):
-    return send_from_directory(IMAGE_FOLDER, filename)
+    return send_from_directory(MailEventConfig.IMAGE_FOLDER, filename)
 
 
 def process_normal_event(type: str, time: str, summary: str):
@@ -61,7 +63,8 @@ def process_email_event(type: str, time: str, imageb64: str):
     # Write image to a folder
     content = b64decode(imageb64)
     filename = sha256(content).hexdigest() + ".jpg"
-    filepath = join(IMAGE_FOLDER, filename)
+    makedirs(MailEventConfig.IMAGE_FOLDER, exist_ok=True)
+    filepath = join(MailEventConfig.IMAGE_FOLDER, filename)
     with open(filepath, "wb") as f:
         f.write(content)
 
@@ -73,7 +76,7 @@ def process_email_event(type: str, time: str, imageb64: str):
     prompt = make_prompt(region, address, users, comments)
 
     # Analyze using ChatGPT
-    data = analyze_mail_cover(prompt, filepath)
+    data = analyze_mail_cover(prompt, filepath, MailEventConfig.GPT_API_KEY)
     # Add filename to data for frontend display
     data["image"] = filename
     return (type, time, data)
@@ -94,6 +97,7 @@ def add_event():
     try:
         send_email_notification(type, time, data, id)
     except Exception as e:
+        e = traceback.format_exc()
         print("Failed to send notification", e)
         pass
     return jsonify({})

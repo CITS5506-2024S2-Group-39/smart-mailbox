@@ -3,6 +3,7 @@ from datauri import DataURI
 from datetime import datetime as DateTime
 from os import path as Path
 import json as JSON
+import traceback
 
 
 # Encodes an image file into a data URI.
@@ -73,8 +74,7 @@ def parse_json(content: str) -> dict:
 
 # Returns a json object containing details about the mail cover.
 # You must pass a prompt formatted by make_prompt() or the function will not work.
-def analyze_mail_cover_internal(prompt: str, image: str) -> dict:
-    key = read_file("apikey.txt")
+def analyze_mail_cover_internal(prompt: str, image: str, key: str) -> dict:
     client = openai.OpenAI(api_key=key)
     response = client.chat.completions.create(
         model="gpt-4o",
@@ -99,17 +99,19 @@ def analyze_mail_cover_internal(prompt: str, image: str) -> dict:
     return parse_json(text)
 
 
-def analyze_mail_cover(prompt: str, image: str) -> dict:
+def analyze_mail_cover(prompt: str, image: str, api_key: str) -> dict:
     try:
-        json = analyze_mail_cover_internal(prompt, image)
+        json = analyze_mail_cover_internal(prompt, image, api_key)
     except Exception as e:
+        e = traceback.format_exc()
         json = {"summary": f"ChatGPT failed to process the image: {e}"}
     # Make sure the response always matches our expectation by having all required fields
     normalized = {}
     normalized["summary"] = json.get("summary")
     normalized["recipient_name"] = json.get("recipient_name")
     recipient_address = json.get("recipient_address")
-    if not recipient_address: recipient_address = {}
+    if not recipient_address:
+        recipient_address = {}
     normalized["recipient_address"] = {
         "street": recipient_address.get("street"),
         "city": recipient_address.get("city"),
@@ -118,7 +120,8 @@ def analyze_mail_cover(prompt: str, image: str) -> dict:
     }
     normalized["sender_name"] = json.get("sender_name")
     sender_address = json.get("sender_address")
-    if not sender_address: sender_address = {}
+    if not sender_address:
+        sender_address = {}
     normalized["sender_address"] = {
         "street": sender_address.get("street"),
         "city": sender_address.get("city"),

@@ -4,11 +4,45 @@ from config import DATABASE
 import json
 
 
+# Function to initialize the database connection
+def initialize_db(db: str):
+    # Connect to the new database
+    conn = sqlite3.connect(db)
+    cursor = conn.cursor()
+
+    # Create events table
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS events (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            time TEXT,
+            type TEXT,
+            data TEXT
+        );
+    """
+    )
+
+    # Create settings table
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS settings (
+            key TEXT PRIMARY KEY,
+            value TEXT
+        );
+    """
+    )
+
+    # Commit the changes and return the connection
+    conn.commit()
+    return conn
+
+
 # Function to get database connection
 def get_db():
     db = getattr(g, "_database", None)
     if db is None:
-        db = g._database = sqlite3.connect(DATABASE)
+        db = initialize_db(DATABASE)
+        g._database = db
     return db
 
 

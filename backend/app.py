@@ -8,6 +8,14 @@ sys.path.append(root_dir)
 
 ########################################################################
 
+import logging
+import traceback
+
+# Disable non-error Flask logging
+log = logging.getLogger("werkzeug")
+log.setLevel(logging.ERROR)
+
+########################################################################
 
 from flask import Flask, jsonify
 
@@ -22,7 +30,8 @@ app = Flask(__name__)
 # Global error handler
 @app.errorhandler(Exception)
 def handle_exception(e):
-    response = {"error": str(e)}
+    error_details = traceback.format_exc()
+    response = {"error": error_details}
     return jsonify(response), 500
 
 
