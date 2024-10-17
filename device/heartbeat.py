@@ -15,7 +15,7 @@ def daemon(interrupt, message_queue):
             # Heartbeat reports device data to the backend
             # Currently, only report current lock state
             data = {"locked": lock.is_locked()}
-            response = requests.post(HeartbeatConfig.URL, json=data)
+            response = requests.post(HeartbeatConfig.URL, json=data, timeout=10)
             response.raise_for_status()
             # Heartbeat also polls commands from the backend
             response = response.json()

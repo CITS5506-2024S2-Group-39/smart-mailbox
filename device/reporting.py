@@ -17,7 +17,7 @@ def worker(interrupt, report_queue):
         # But, if too much failure, will just drop the event
         for retry in range(0, EventReportConfig.MAX_RETRY):
             try:
-                response = requests.put(EventReportConfig.URL, json=data)
+                response = requests.put(EventReportConfig.URL, json=data, timeout=10)
                 response.raise_for_status()
                 break  # Break on success
             except Exception as e:
