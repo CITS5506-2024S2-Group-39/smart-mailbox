@@ -12,7 +12,11 @@ def send_email_notification(type: str, time: str, data: dict, id: int):
     if not receipient:
         return
 
+    # Parse the time string as a UTC datetime object
     time = ISODateTime.from_string(time)
+    # Convert the UTC time to the local timezone
+    # TODO: Respect user's regional timezone settings
+    time = time.astimezone()
     time = time.strftime("%B %d, %Y %H:%M:%S")
     subject = f"[Smart Mailbox] {type}"
 

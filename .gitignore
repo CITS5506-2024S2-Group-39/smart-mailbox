@@ -20,6 +20,7 @@ __pycache__/
 venv/
 *.pyc
 
-# Exclude image artifacts. If necessary, add files explicitly.
+# Exclude user data. If necessary, add files explicitly.
+*.txt
 *.jpg
-*.png
+*.db

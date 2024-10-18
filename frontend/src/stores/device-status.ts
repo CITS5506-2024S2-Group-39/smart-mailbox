@@ -32,8 +32,5 @@ const update = () => {
 update();
 
 // Refresh data with a certain interval
-// A possible optimization could be only loading updates
-// However, it will be tricky because content of existing items could also be updated
-// Avoiding premature optimization for now
 const interval = 1 * 1000;
 const cancel = setIntervalWithCancel(update, interval);
