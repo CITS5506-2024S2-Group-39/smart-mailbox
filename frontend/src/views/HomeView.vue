@@ -113,13 +113,13 @@ const passworddialog = shallowRef<typeof PasswordUpdateDialog>();
             {{ deviceStatus.online ? "Online" : "Offline" }}
           </span>
         </div>
-        <div class="flex flex-row gap-std">
+        <div class="flex flex-row gap-std" v-if="deviceStatus.online">
           <span class="w-24 flex-none text-sm font-bold">Uptime</span>
           <span class="break-none flex-1 text-nowrap">
-            {{ deviceStatus.online ? prettyPrintTimeInterval(deviceStatus.since, now) : "N/A" }}
+            {{ prettyPrintTimeInterval(deviceStatus.since, now) }}
           </span>
         </div>
-        <div class="flex flex-row gap-std">
+        <div class="flex flex-row gap-std" v-else>
           <span class="w-24 flex-none text-sm font-bold">Last Seen</span>
           <span class="break-none flex-1 text-nowrap">
             {{ deviceStatus.lastseen.getTime() ? deviceStatus.lastseen.toLocaleString() : "Never" }}
