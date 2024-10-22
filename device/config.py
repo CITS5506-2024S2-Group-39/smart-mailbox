@@ -1,17 +1,17 @@
+# Make sure to change this value depending on how your backend is hosted
+BACKEND_HOST_NAME = "localhost:5000"
+
+
 # Configuration class for heartbeat settings
 class HeartbeatConfig:
-    # Interval for sending heartbeat signals (in seconds)
-    INTERVAL = 1
     # URL endpoint for the heartbeat API
-    # Note: Typically aligns with the HOST_NAME configuration in backend/config.py
-    URL = "http://13.239.34.106/api/mailbox/heartbeat"
+    URL = f"http://{BACKEND_HOST_NAME}/api/mailbox/heartbeat"
 
 
 # Configuration class for event reporting settings
 class EventReportConfig:
     # URL endpoint for the event reporting API
-    # Note: Typically aligns with the HOST_NAME configuration in backend/config.py
-    URL = "http://13.239.34.106/api/event"
+    URL = f"http://{BACKEND_HOST_NAME}/api/event"
     # Time interval (in seconds) to wait before retrying the event report
     RETRY_INTERVAL = 5
     # Maximum number of retry attempts for event reporting

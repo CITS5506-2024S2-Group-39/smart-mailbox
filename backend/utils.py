@@ -1,6 +1,6 @@
 import sqlite3
 from flask import g
-from config import DATABASE
+from config import MailEventConfig
 import json
 
 
@@ -41,7 +41,7 @@ def initialize_db(db: str):
 def get_db():
     db = getattr(g, "_database", None)
     if db is None:
-        db = initialize_db(DATABASE)
+        db = initialize_db(MailEventConfig.DATABASE)
         g._database = db
     return db
 

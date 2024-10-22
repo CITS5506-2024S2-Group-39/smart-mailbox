@@ -1,74 +1,86 @@
-# Smart Mailbox
+# CITS5506 2024S2 Project - Smart Mailbox
 
 ## Overview
 
-**Smart Mailbox** is an IoT-enabled solution designed to enhance the convenience and security of traditional mail management systems.
+**Smart Mailbox** is an IoT-enabled solution designed to improve the convenience and security of traditional mail management systems. It combines real-time notifications, enhanced security features, and smart analytics to create a seamless experience for users.
 
-## Running the Project on Your Device
+## Features
 
-### Prerequisites
-Before running the project, make sure you have the following installed:
-- **Node.js** (with npm) – You can download it from [here](https://nodejs.org/).
+- **Real-Time Notifications**: The Smart Mailbox records all mailbox activities, including new mail arrivals, lock/unlock events, password changes, and security alerts. These events are updated in real-time on the web dashboard. If email notifications are configured, users will receive real-time alerts on all mailbox activities.
 
-### Steps to Run the Project
+- **Mailbox Security**: Equipped with a solenoid lock, the mailbox ensures secure access. Users can unlock the mailbox by entering a password on the hardware keypad or remotely via the web dashboard. Passwords can also be updated remotely. The system monitors for repeated failed access attempts and triggers security alerts as needed.
 
-1. **Clone the Repository**:
+- **Smart Features**: Upon the arrival of new mail, the Smart Mailbox automatically captures a picture of the mail. This image is analyzed using ChatGPT to extract useful information and insights. Users can provide additional contextual information via the web dashboard to enhance accuracy. The dashboard also displays visual insights into usage patterns, such as daily mail counts, types of mail received, and delivery time trends.
 
-This repository uses Git hooks to streamline contributions. First, clone the repository and navigate to the project directory. Then to set up your environment, run the following commands:
+- **Usability and Reliability**: The responsive design of the web dashboard ensures a smooth user experience on both desktop and mobile devices. The Smart Mailbox continues to function as a traditional mailbox even during network outages, allowing users to retrieve their mail without interruption. Once connectivity is restored, all data collected during offline periods is automatically synchronized, ensuring a complete activity history.
+
+For more detailed information, please visit our [project report](https://www.overleaf.com/project/67124304b3e18be02fe709c4).
+
+## Running the Project
+
+Make sure to download the entire repository, as both `device` and `backend` require access to the `shared` folder to function correctly.
+
+### Start Frontend
+
+To start the frontend, open a separate shell and run:
 
 ```bash
-git clone https://github.com/Iot-group39/smart-mailbox.git
-cd smart-mailbox
+cd frontend
+npm install
+npm run dev
+```
+
+The frontend should now be accessible at `http://localhost:5173/`. Initially, you may see request errorswhich are expected because the backend isn't running yet. To resolve these errors, you'll need to start the backend.
+
+The development server proxies requests to `/api` at `http://127.0.0.1:5000`. If you prefer not to use the development server, you can build a production version of the frontend and host it with a web server, configuring a reverse proxy to connect it to the backend. Setting this up may vary based on your environment and is beyond the scope of this guide.
+
+For simplicity, we're using a development server here. This setup assumes the backend is running on the same machine and automatically proxies requests to URLs starting with `/api` to `http://127.0.0.1:5000`. If you opt not to use the development server, you'll need to know how to build a production version of the frontend, host the static files with a web server, and configure a reverse proxy to connect the frontend to the backend. Setting this up may vary based on your environment and is beyond the scope of this guide.
+
+### Start Backend
+
+Before starting the backend, configure `backend/config.py`:
+
+- **`FRONTEND_HOST_NAME`**: Set this to your frontend's hostname. If running locally, this can be ignored, but images in email notifications might not display. For a cloud-hosted backend, use a public IP address.
+
+- **`MailEventConfig.GPT_API_KEY`**: Provide the API key for ChatGPT to enable image analysis.
+
+- **Email Settings**: Configure the following for email notifications to work:
+  - `EmailConfig.SMTP_SERVER`
+  - `EmailConfig.SMTP_PORT`
+  - `EmailConfig.EMAIL_USER`
+  - `EmailConfig.EMAIL_PASSWORD`
+
+After completing the configuration, start the backend:
+
+```bash
+cd backend
+./run.sh
+```
+
+At this stage, the frontend should be functioning properly, with no more request errors, and you should be able to modify the settings item. However, it still indicates that the device is offline.
+
+### Start Device-Side Application
+
+Ensure that the hardware components are set up correctly. Update the GPIO pin numbers in `device/config.py` to match your setup.
+
+Also, modify `BACKEND_HOST_NAME` in `device/config.py` to enable the device to communicate with your backend server. If you're running the backend locally, ensure that the Raspberry Pi is connected to the same network as the computer hosting the backend, and use the computer's internal IP address (usually in the format `192.168.x.x` or `10.x.x.x`). For a cloud-hosted backend, provide the server's public IP address.
+
+To run the device application, execute:
+
+```bash
+cd device
+python3 main.py
+```
+
+If you encounter any dependency errors, install the required packages as needed. Generally, you will only need to install PiCamera2.
+
+### Setting Up Git Hooks [Optional]
+
+This repository utilizes Git hooks to streamline contributions. After cloning the repository and navigating to the project directory, set up the Git hooks by running:
+
+```bash
 ./setup-git-hooks.sh  # For Linux or macOS
-setup-git-hooks.cmd  # For Windows
+setup-git-hooks.cmd   # For Windows
 ```
 
-2. **Install Frontend Dependencies**:
-   Navigate to the `frontend` folder and install the dependencies:
-   ```bash
-   cd frontend
-   npm install
-   ```
-
-3. **Run the Frontend**:
-   After the dependencies are installed, start the local development server:
-   ```bash
-   npm run dev
-   ```
-
-   This will launch the website on a local server. You can access it in your browser at:
-   - Local URL: `http://localhost:5173/`
-   
-
-## Committing Your Changes
-
-### Staging and Committing
-
-All changes must be staged before committing for the code formatter to work. Use:
-
-```bash
-git add -A  # If you created new files or moved files around
-git commit -am "Your commit message"  # If you only modified existing files
-```
-
-### Commit Message Format
-
-Your commit messages should follow this format to ensure clarity and consistency:
-
-- **Type**: Specify the type of change, such as `feat` (new feature), `fix` (bug fix), `docs` (documentation), `style` (code style changes), `refactor` (code changes that do not fix bugs or add features), `test` (adding or updating tests), or `chore` (minor tasks).
-- **Scope** (optional): Indicate the area affected, such as `backend`, `device`, or `frontend`.
-- **Description**: Provide a brief summary of the change (10 to 50 characters).
-
-For example, a commit message might look like `feat(device): add mail detection`.
-
-## Pushing to GitHub
-
-After committing your changes, push them to the `main` branch of the remote repository using:
-
-```bash
-git push -u origin main
-```
-
-The `-u` flag sets the remote `main` branch as the default upstream branch for your local `main` branch, simplifying future push and pull operations.
-
-**Important**: Avoid using `-f` (force push), as it can overwrite others' work and lead to data loss.
+If the Git hooks are correctly set up, they will enforce commit message style guidelines and help format code before committing. However, most modern IDEs offer similar functionalities, so you may use these features based on personal preference.

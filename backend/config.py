@@ -1,10 +1,11 @@
-# Configuration file to store project settings
+# Make sure to change this value depending on how your frontend is hosted
+FRONTEND_HOST_NAME = "localhost:5173"
 
-# Specify the path to the SQLite database file
-DATABASE = "mailbox.db"
 
 # Class to hold configuration settings related to mail events
 class MailEventConfig:
+    # Specify the path to the SQLite database file
+    DATABASE = "mailbox.db"
     # Directory where images will be stored
     IMAGE_FOLDER = "images"
     # API key for accessing GPT services
@@ -22,4 +23,4 @@ class EmailConfig:
     # Password for the email account
     EMAIL_PASSWORD = "1234567890abcdef"
     # Hostname for the dashboard
-    HOST_NAME = "localhost:5173"
+    HOST_NAME = FRONTEND_HOST_NAME

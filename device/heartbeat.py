@@ -10,7 +10,7 @@ def daemon(interrupt, message_queue):
     print("Heartbeat thread started")
 
     while not interrupt.is_set():
-        time.sleep(HeartbeatConfig.INTERVAL)
+        time.sleep(1)
         try:
             # Heartbeat reports device data to the backend
             # Currently, only report current lock state
