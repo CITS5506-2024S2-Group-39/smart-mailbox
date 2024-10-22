@@ -128,14 +128,17 @@ const passworddialog = ref<typeof PasswordUpdateDialog>();
         </div>
       </div>
     </Card>
-    <Card class="desktop:order-2 desktop:col-span-2 desktop:row-span-3" title="Latest Mail" v-if="lastMailEvent">
+    <Card class="desktop:order-2 desktop:col-span-2 desktop:row-span-3" title="Latest Mail">
       <template v-slot:additional>
-        <div class="text-sm text-neutral-500" v-text="lastMailEvent.time.toLocaleString()"></div>
+        <div class="text-sm text-neutral-500" v-if="lastMailEvent" v-text="lastMailEvent.time.toLocaleString()"></div>
       </template>
       <div class="desktop:relative desktop:size-full desktop:overflow-auto">
         <div class="flex flex-col gap-std desktop:absolute desktop:inset-0">
-          <img :src="'/api/images/' + lastMailEvent.data.image" class="aspect-[4/3] rounded-lg" />
-          <div v-text="lastMailEvent.data.summary"></div>
+          <template v-if="lastMailEvent">
+            <img :src="'/api/images/' + lastMailEvent.data.image" class="aspect-[4/3] rounded-lg" />
+            <div v-text="lastMailEvent.data.summary"></div>
+          </template>
+          <div v-else class="m-auto">No Data</div>
         </div>
       </div>
     </Card>
