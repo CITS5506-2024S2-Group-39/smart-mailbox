@@ -20,7 +20,7 @@ For more detailed information, please visit our [project report](https://www.ove
 
 Make sure to download the entire repository, as both `device` and `backend` require access to the `shared` folder to function correctly.
 
-### Start Frontend
+### Starting the Frontend
 
 To start the frontend, open a separate shell and run:
 
@@ -32,11 +32,9 @@ npm run dev
 
 The frontend should now be accessible at `http://localhost:5173/`. Initially, you may see request errorswhich are expected because the backend isn't running yet. To resolve these errors, you'll need to start the backend.
 
-The development server proxies requests to `/api` at `http://127.0.0.1:5000`. If you prefer not to use the development server, you can build a production version of the frontend and host it with a web server, configuring a reverse proxy to connect it to the backend. Setting this up may vary based on your environment and is beyond the scope of this guide.
-
 For simplicity, we're using a development server here. This setup assumes the backend is running on the same machine and automatically proxies requests to URLs starting with `/api` to `http://127.0.0.1:5000`. If you opt not to use the development server, you'll need to know how to build a production version of the frontend, host the static files with a web server, and configure a reverse proxy to connect the frontend to the backend. Setting this up may vary based on your environment and is beyond the scope of this guide.
 
-### Start Backend
+### Starting the Backend
 
 Before starting the backend, configure `backend/config.py`:
 
@@ -59,20 +57,22 @@ cd backend
 
 At this stage, the frontend should be functioning properly, with no more request errors, and you should be able to modify the settings item. However, it still indicates that the device is offline.
 
-### Start Device-Side Application
+### Starting the Device Application
 
-Ensure that the hardware components are set up correctly. Update the GPIO pin numbers in `device/config.py` to match your setup.
+Before launching the device application, ensure that all hardware components are properly set up. Update the GPIO pin numbers in `device/config.py` to align with your specific setup.
 
-Also, modify `BACKEND_HOST_NAME` in `device/config.py` to enable the device to communicate with your backend server. If you're running the backend locally, ensure that the Raspberry Pi is connected to the same network as the computer hosting the backend, and use the computer's internal IP address (usually in the format `192.168.x.x` or `10.x.x.x`). For a cloud-hosted backend, provide the server's public IP address.
+Next, modify the `BACKEND_HOST_NAME` in `device/config.py` to enable communication between the device and your backend server. If you're running the backend locally, make sure the Raspberry Pi is connected to the same network as the computer hosting the backend. Use the computer's internal IP address, typically in the format `192.168.x.x` or `10.x.x.x`. For a cloud-hosted backend, enter the server's public IP address.
 
-To run the device application, execute:
+After completing the configuration, run the device application with the following commands:
 
 ```bash
 cd device
 python3 main.py
 ```
 
-If you encounter any dependency errors, install the required packages as needed. Generally, you will only need to install PiCamera2.
+If you encounter any dependency errors, install the necessary packages. Usually, the only package you will need to install is PiCamera2.
+
+If all steps are followed correctly, you should see the device online in the web dashboard. Now, have fun!
 
 ### Setting Up Git Hooks [Optional]
 
