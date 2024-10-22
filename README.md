@@ -14,7 +14,7 @@
 
 - **Usability and Reliability**: The responsive design of the web dashboard ensures a smooth user experience on both desktop and mobile devices. The Smart Mailbox continues to function as a traditional mailbox even during network outages, allowing users to retrieve their mail without interruption. Once connectivity is restored, all data collected during offline periods is automatically synchronized, ensuring a complete activity history.
 
-For more detailed information, please visit our [project report](https://www.overleaf.com/project/67124304b3e18be02fe709c4).
+For more detailed information, please visit our [project report](https://www.overleaf.com/read/kwgvzccmddds#70f059).
 
 ## Running the Project
 
