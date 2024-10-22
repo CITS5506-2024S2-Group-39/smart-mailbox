@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Card from "@/components/common/Card.vue";
-import events, { EventType, MailTypes, type MailboxEvent } from "@/stores/events";
+import events, { EventType } from "@/stores/events";
 import arrayEqual from "@/utils/array-equal";
 import Chart, { type ChartConfiguration } from "chart.js/auto";
 import { onBeforeUnmount, onMounted, shallowRef, watchEffect } from "vue";

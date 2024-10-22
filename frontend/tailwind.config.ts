@@ -3,12 +3,12 @@ import plugin from "tailwindcss/plugin";
 
 // convert tailwind spacing unit to rem.
 function toRem(space: number): string {
-  let rem = 0.25 * space;
+  const rem = 0.25 * space;
   return `${rem}rem`;
 }
 
 function generateSpacing(min: number, max: number, step: number): Record<number, string> {
-  let result = {};
+  const result = {};
   for (let i = min; i <= max; i += step) {
     result[i] = toRem(i);
   }
@@ -29,7 +29,7 @@ function generateCurrentColor(): Record<string, string> {
   }
 
   // Generate color for current with varying intensity (bg-current-{intensity})
-  for (let intensity of [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]) {
+  for (const intensity of [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]) {
     result[`current-${intensity}`] = colorMix("currentColor", "white", intensity / 10);
   }
 

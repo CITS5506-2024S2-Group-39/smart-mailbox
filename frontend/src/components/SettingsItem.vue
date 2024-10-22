@@ -2,7 +2,7 @@
 import Button from "@/components/common/Button.vue";
 import Icon from "@/components/common/Icon.vue";
 import settings, { updateSetting } from "@/stores/settings";
-import { nextTick, ref } from "vue";
+import { shallowRef } from "vue";
 
 const {
   title,
@@ -18,8 +18,8 @@ const {
   rows?: number;
 }>();
 
-const inputbox = ref<HTMLTextAreaElement>();
-const editing = ref<boolean>(false);
+const inputbox = shallowRef<HTMLTextAreaElement>();
+const editing = shallowRef<boolean>(false);
 
 const startEdit = () => {
   editing.value = true;

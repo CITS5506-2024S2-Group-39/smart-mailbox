@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import Button from "@/components/common/Button.vue";
 import Card from "@/components/common/Card.vue";
-import Icon from "@/components/common/Icon.vue";
 import LockControlDialog from "@/components/LockControlDialog.vue";
 import PasswordUpdateDialog from "@/components/PasswordUpdateDialog.vue";
 import SettingsItem from "@/components/SettingsItem.vue";
 import deviceStatus from "@/stores/device-status";
-import { ref } from "vue";
+import { shallowRef } from "vue";
 
-const lockdialog = ref<typeof LockControlDialog>();
-const passworddialog = ref<typeof PasswordUpdateDialog>();
+const lockdialog = shallowRef<typeof LockControlDialog>();
+const passworddialog = shallowRef<typeof PasswordUpdateDialog>();
 </script>
 
 <template>

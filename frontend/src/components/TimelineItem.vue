@@ -25,7 +25,7 @@ const date = computed(() => event.time as Date);
     </div>
     <div class="flex flex-1 flex-col gap-1">
       <div class="text-xs text-neutral-500 desktop:hidden" v-text="date.toLocaleString()"></div>
-      <RouterLink :to="`/event/${event.id}`" class="block break-all text-base font-bold" v-text="event.type" />
+      <RouterLink :to="`/event/${event.id}`" class="block break-all text-base font-bold">{{ event.type }}</RouterLink>
       <div class="text-sm text-neutral-500" v-text="event.data.summary"></div>
     </div>
   </div>

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import AspectRatio from "@/components/common/AspectRatio.vue";
 import Button from "@/components/common/Button.vue";
 import Card from "@/components/common/Card.vue";
 import Icon from "@/components/common/Icon.vue";
@@ -9,7 +8,7 @@ import PasswordUpdateDialog from "@/components/PasswordUpdateDialog.vue";
 import deviceStatus from "@/stores/device-status";
 import events, { EventType } from "@/stores/events";
 import now from "@/stores/now";
-import { computed, ref } from "vue";
+import { computed, shallowRef } from "vue";
 
 const mailsSinceLastOpen = computed(() => {
   let count = 0;
@@ -70,8 +69,8 @@ function prettyPrintTimeInterval(startDate: Date, endDate: Date) {
   return timeComponents.length > 0 ? timeComponents.join(", ") : "0 seconds";
 }
 
-const lockdialog = ref<typeof LockControlDialog>();
-const passworddialog = ref<typeof PasswordUpdateDialog>();
+const lockdialog = shallowRef<typeof LockControlDialog>();
+const passworddialog = shallowRef<typeof PasswordUpdateDialog>();
 </script>
 
 <template>

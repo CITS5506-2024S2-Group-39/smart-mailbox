@@ -3,7 +3,7 @@ import Icon from "@/components/common/Icon.vue";
 import Logo from "@/components/Logo.vue";
 import NavbarItem from "@/components/NavbarItem.vue";
 import ToastList from "@/components/ToastList.vue";
-import { RouterLink, RouterView } from "vue-router";
+import { RouterView } from "vue-router";
 </script>
 
 <template>

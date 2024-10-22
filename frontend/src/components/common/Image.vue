@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { shallowRef } from "vue";
 
 const { src } = defineProps<{ src: string }>();
-const zoom = ref<boolean>(false);
+const zoom = shallowRef<boolean>(false);
 
 const toggleZoom = (zoomed: boolean) => {
   if (!zoomed) document.body.style.overflow = "";

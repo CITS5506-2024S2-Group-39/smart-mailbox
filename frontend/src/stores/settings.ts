@@ -1,7 +1,6 @@
-import { showInfo, showSuccess } from "./toast";
 import { getAPI, postAPI } from "@/api";
-import { setIntervalWithCancel } from "@/utils/timeout";
-import { shallowReactive, shallowRef } from "vue";
+import { showSuccess } from "@/stores/toast";
+import { shallowReactive } from "vue";
 
 const settings = shallowReactive<Record<string, string>>({});
 
@@ -14,7 +13,7 @@ interface Setting {
 
 // Load initial data
 getAPI("/api/settings", (data: Setting[]) => {
-  for (let { key, value } of data) {
+  for (const { key, value } of data) {
     if (settings[key] !== value) {
       settings[key] = value;
     }

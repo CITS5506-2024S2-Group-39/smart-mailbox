@@ -1,6 +1,6 @@
 import { getAPI, postAPI } from "@/api";
 import { setIntervalWithCancel } from "@/utils/timeout";
-import { shallowReactive, shallowRef } from "vue";
+import { shallowReactive } from "vue";
 
 export enum EventType {
   MailboxUnlocked = "Mailbox Unlocked",
@@ -93,7 +93,7 @@ fullUpdate();
 // Refresh data with a certain interval
 const interval = 1 * 1000;
 let count = 0;
-const cancel = setIntervalWithCancel(() => {
+setIntervalWithCancel(() => {
   count += 1;
   count %= 64;
   if (count === 0) {

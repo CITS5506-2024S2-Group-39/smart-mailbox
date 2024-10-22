@@ -1,4 +1,4 @@
-import { getAPI, postAPI } from "@/api";
+import { postAPI } from "@/api";
 import { setIntervalWithCancel } from "@/utils/timeout";
 import { shallowReactive } from "vue";
 
@@ -33,4 +33,4 @@ update();
 
 // Refresh data with a certain interval
 const interval = 1 * 1000;
-const cancel = setIntervalWithCancel(update, interval);
+setIntervalWithCancel(update, interval);

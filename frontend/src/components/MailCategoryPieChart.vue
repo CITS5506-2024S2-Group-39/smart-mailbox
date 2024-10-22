@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import Card from "@/components/common/Card.vue";
-import events, { EventType, MailTypes, type MailboxEvent } from "@/stores/events";
+import events, { EventType, MailTypes } from "@/stores/events";
 import Chart, { type ChartConfiguration } from "chart.js/auto";
 import { onBeforeUnmount, onMounted, shallowRef, watchEffect } from "vue";
 
 const labels: string[] = MailTypes;
-const data: number[] = labels.map((x) => 0);
+const data: number[] = labels.map(() => 0);
 
 const configuration: ChartConfiguration<"pie", number[], string> = {
   type: "pie",

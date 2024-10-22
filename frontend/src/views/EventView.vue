@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import AspectRatio from "@/components/common/AspectRatio.vue";
 import Button from "@/components/common/Button.vue";
 import Card from "@/components/common/Card.vue";
 import Icon from "@/components/common/Icon.vue";
@@ -9,7 +8,7 @@ import MailboxEventIcon from "@/components/MailboxEventIcon.vue";
 import { getAPI, postAPI } from "@/api";
 import { type MailboxEvent, EventType, MailTypes, fullUpdate } from "@/stores/events";
 import { showSuccess } from "@/stores/toast";
-import { reactive, ref } from "vue";
+import { reactive } from "vue";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
@@ -155,7 +154,7 @@ getAPI(`/api/event/${route.params.id}`, (data: MailboxEvent) => {
           <label class="w-48 flex-none text-sm/8 font-bold">Mail Type</label>
 
           <select class="bg-transparent text-base/8" v-model="event.data.mail_type">
-            <option v-for="type in MailTypes" :value="type" v-text="type"></option>
+            <option v-for="type in MailTypes" :key="type" :value="type" v-text="type"></option>
           </select>
         </div>
       </template>

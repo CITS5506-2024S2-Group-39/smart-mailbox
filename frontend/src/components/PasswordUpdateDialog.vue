@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import Button from "@/components/common/Button.vue";
 import Card from "@/components/common/Card.vue";
-import Icon from "@/components/common/Icon.vue";
 import { postAPI } from "@/api";
 import deviceStatus from "@/stores/device-status";
 import { showSuccess } from "@/stores/toast";
